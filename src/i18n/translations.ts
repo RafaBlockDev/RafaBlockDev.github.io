@@ -53,7 +53,7 @@ export const t = {
       or: 'or find me on',
     },
     footer: {
-      made: 'Made with blood, sweat, tacos & Grok',
+      made: 'Made with blood, sweat, tacos and AI',
       rights: '© 2026 Rafael Fuentes. Mexico City.',
     },
   },
@@ -111,7 +111,7 @@ export const t = {
       or: 'o encuéntrame en',
     },
     footer: {
-      made: 'Hecho con sangre, sudor, tacos y Grok',
+      made: 'Hecho con sangre, sudor, tacos y IA',
       rights: '© 2026 Rafael Fuentes. Ciudad de México.',
     },
   },
