@@ -1,0 +1,99 @@
+---
+import AcademicLayout from '../../layouts/AcademicLayout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('notebook');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry }
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'notebook'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+});
+---
+
+<AcademicLayout title={`${entry.data.title} — Notebook`} description={entry.data.summary}>
+  <article class="mx-auto max-w-2xl">
+    <a href="/notebook" class="font-mono text-xs text-ink/50 hover:text-accent">&larr; notebook</a>
+
+    <h1 class="mt-4 font-serif text-2xl font-normal text-ink">{entry.data.title}</h1>
+    <p class="mt-2 font-mono text-xs text-ink/50">
+      {dateFormatter.format(entry.data.date)}
+      {entry.data.updatedDate && <> &middot; updated {dateFormatter.format(entry.data.updatedDate)}</>}
+    </p>
+    <div class="mt-2 flex flex-wrap gap-2">
+      {entry.data.tags.map((tag) => (
+        <span class="rounded-sm bg-accent/5 px-2 py-0.5 font-mono text-[0.65rem] text-accent">{tag}</span>
+      ))}
+    </div>
+
+    <div class="notebook-prose mt-8 max-w-none text-[1.0625rem] leading-relaxed text-ink/90">
+      <Content />
+    </div>
+  </article>
+</AcademicLayout>
+
+<style is:global>
+  .notebook-prose h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    font-family: Georgia, 'Computer Modern Serif', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #1a1a1a;
+  }
+  .notebook-prose h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    font-family: Georgia, 'Computer Modern Serif', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #1a1a1a;
+  }
+  .notebook-prose p {
+    margin-top: 1.1rem;
+  }
+  .notebook-prose ul,
+  .notebook-prose ol {
+    margin-top: 1.1rem;
+    padding-left: 1.5rem;
+  }
+  .notebook-prose ul {
+    list-style: disc;
+  }
+  .notebook-prose ol {
+    list-style: decimal;
+  }
+  .notebook-prose li + li {
+    margin-top: 0.4rem;
+  }
+  .notebook-prose code {
+    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+    font-size: 0.85em;
+    background: rgba(0, 51, 102, 0.06);
+    padding: 0.1em 0.3em;
+    border-radius: 0.15em;
+  }
+  .notebook-prose .katex-display {
+    margin: 1.75rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .notebook-prose a {
+    color: #003366;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

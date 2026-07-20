@@ -1,0 +1,19 @@
+---
+title: "Reading List: Long-Context Evaluation"
+date: 2026-06-10
+summary: >
+  A short list of benchmarks and papers I'm using to sanity-check
+  long-context claims before trusting them.
+tags: ["evals", "long-context"]
+math: false
+---
+
+Quick pointers, mostly for my own future reference:
+
+- **Needle-in-a-haystack** style probes are useful but saturate fast and
+  don't capture multi-hop retrieval.
+- Benchmarks that require *aggregating* evidence across the context
+  (not just locating one fact) are much better stress tests for
+  sparsity-based methods, since they punish over-aggressive pruning.
+- Perplexity alone is a weak proxy once context length passes ~32k
+  tokens — worth pairing with a task-level metric.
