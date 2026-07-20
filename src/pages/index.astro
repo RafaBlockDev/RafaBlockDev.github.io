@@ -1,28 +1,17 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/react/Navbar';
-import Hero from '../components/react/Hero';
-import About from '../components/react/About';
-import Projects from '../components/react/Projects';
-import Stack from '../components/react/Stack';
-import Threads from '../components/react/Threads';
-import NowBuilding from '../components/react/NowBuilding';
-import Contact from '../components/react/Contact';
-import Footer from '../components/react/Footer';
+
 ---
 
-<Layout>
-  <Navbar client:load />
-
-  <main>
-    <Hero client:load />
-    <About client:idle />
-    <Projects client:idle />
-    <Stack client:idle />
-    <Threads client:idle />
-    <NowBuilding client:idle />
-    <Contact client:idle />
-  </main>
-
-  <Footer client:idle />
-</Layout>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<h1>Astro</h1>
+	</body>
+</html>
