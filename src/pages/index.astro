@@ -152,38 +152,40 @@ const startHere = [
     )
   }
 
-  <!-- Notebook log -->
-  <section class="mt-14 grid gap-12 lg:grid-cols-2">
-    <div aria-labelledby="notebook-heading">
-      <div class="flex items-baseline justify-between border-b border-ink/10 pb-2">
-        <h2 id="notebook-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
-          Notebook Log
-        </h2>
-        <a href={withBase('/notebook/')} class="font-mono text-xs text-ink/60 hover:text-accent"
-          >all entries &rarr;</a
-        >
-      </div>
-      <ul class="mt-4 space-y-6">
-        {
-          latestNotebook.map((entry) => (
-            <li>
-              <a
-                href={withBase(`/notebook/${entry.id}/`)}
-                class="font-serif text-base text-ink hover:text-accent"
-              >
-                {entry.data.title}
-              </a>
-              <p class="mt-1 font-mono text-xs text-ink/60">
-                {dateFormatter.format(entry.data.date)}
-              </p>
-              <p class="mt-1 text-sm text-ink/70">{entry.data.summary}</p>
-            </li>
-          ))
-        }
-        {latestNotebook.length === 0 && <li class="text-sm text-ink/60">No entries yet.</li>}
-      </ul>
-    </div>
-  </section>
+  <!-- Notebook log: hidden until there are real entries, matching the
+       research/projects sections above. -->
+  {
+    latestNotebook.length > 0 && (
+      <section class="mt-14 grid gap-12 lg:grid-cols-2">
+        <div aria-labelledby="notebook-heading">
+          <div class="flex items-baseline justify-between border-b border-ink/10 pb-2">
+            <h2 id="notebook-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+              Notebook Log
+            </h2>
+            <a href={withBase('/notebook/')} class="font-mono text-xs text-ink/60 hover:text-accent"
+              >all entries &rarr;</a
+            >
+          </div>
+          <ul class="mt-4 space-y-6">
+            {latestNotebook.map((entry) => (
+              <li>
+                <a
+                  href={withBase(`/notebook/${entry.id}/`)}
+                  class="font-serif text-base text-ink hover:text-accent"
+                >
+                  {entry.data.title}
+                </a>
+                <p class="mt-1 font-mono text-xs text-ink/60">
+                  {dateFormatter.format(entry.data.date)}
+                </p>
+                <p class="mt-1 text-sm text-ink/70">{entry.data.summary}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
 
   <!-- Start here: only worth showing once there is more than one entry point. -->
   {startHere.length >= 2 && (
