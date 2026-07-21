@@ -18,10 +18,10 @@ export const SOCIAL = {
 
 export const NAV = [
   { href: '/', label: 'Home' },
-  { href: '/research', label: 'Research' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/notebook', label: 'Notebook' },
-  { href: '/about', label: 'About' }
+  { href: '/research/', label: 'Research' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/notebook/', label: 'Notebook' },
+  { href: '/about/', label: 'About' }
 ] as const;
 
 export type ResearchStatus =
@@ -41,12 +41,11 @@ export const RESEARCH_STATUS_LABELS: Record<ResearchStatus, string> = {
   'notebook-entry': 'Notebook entry'
 };
 
+// timeZone UTC: frontmatter dates parse as UTC midnight, so local-time
+// formatting would render them one day early in western time zones.
 export const dateFormatter = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
   month: 'short',
-  day: 'numeric'
+  day: 'numeric',
+  timeZone: 'UTC'
 });
-
-export function isoDate(d: Date): string {
-  return d.toISOString().split('T')[0];
-}

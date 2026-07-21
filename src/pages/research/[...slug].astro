@@ -1,4 +1,5 @@
 ---
+import 'katex/dist/katex.min.css';
 import AcademicLayout from '../../layouts/AcademicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
@@ -24,7 +25,7 @@ const data = item.data;
 
 const crumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Research', href: '/research' },
+  { label: 'Research', href: '/research/' },
   { label: data.title }
 ];
 
@@ -167,7 +168,7 @@ const jsonLd = [
             {data.related.map((slug) => (
               <li>
                 <a
-                  href={withBase(`/research/${slug}`)}
+                  href={withBase(`/research/${slug}/`)}
                   class="text-sm text-accent underline underline-offset-2 hover:text-ink"
                 >
                   {slug}

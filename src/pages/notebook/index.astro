@@ -19,7 +19,7 @@ const entries = (await getCollection('notebook', ({ data }) => !data.draft)).sor
   <p class="mt-2 max-w-2xl text-sm text-ink/70">
     Working notes, reading logs, and in-progress thinking, newest first.
     Entries here are exploratory by design; finished work graduates to{' '}
-    <a href={withBase('/research')} class="text-accent underline underline-offset-2 hover:text-ink">Research</a>.
+    <a href={withBase('/research/')} class="text-accent underline underline-offset-2 hover:text-ink">Research</a>.
   </p>
 
   <ol class="mt-10 max-w-2xl space-y-8">
@@ -27,7 +27,7 @@ const entries = (await getCollection('notebook', ({ data }) => !data.draft)).sor
       entries.map((entry) => (
         <li class="border-b border-ink/10 pb-6 last:border-none">
           <h2 class="font-serif text-lg text-ink">
-            <a href={withBase(`/notebook/${entry.id}`)} class="hover:text-accent">
+            <a href={withBase(`/notebook/${entry.id}/`)} class="hover:text-accent">
               {entry.data.title}
             </a>
           </h2>

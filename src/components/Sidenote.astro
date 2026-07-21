@@ -8,12 +8,12 @@ const toggleId = `sidenote-${id}`;
 ---
 
 <span class="relative">
+  <input type="checkbox" id={toggleId} class="peer sr-only" aria-label={`Toggle sidenote ${id}`} />
   <label
     for={toggleId}
-    class="cursor-pointer align-super font-mono text-[0.65em] text-accent lg:cursor-default"
-    aria-label={`Sidenote ${id}`}>[{id}]</label
+    class="cursor-pointer align-super font-mono text-[0.65em] text-accent peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent lg:cursor-default"
+    >[{id}]</label
   >
-  <input type="checkbox" id={toggleId} class="peer sr-only" />
 
   <span
     class="mt-2 mb-4 hidden border-l-2 border-accent/40 pl-3 font-mono text-sm leading-snug text-ink/80 peer-checked:block lg:hidden!"

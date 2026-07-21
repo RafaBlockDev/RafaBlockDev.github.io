@@ -13,7 +13,7 @@ export default defineConfig({
   site: 'https://rafablockdev.github.io',
 
   redirects: {
-    '/papers': '/research'
+    '/papers': '/research/'
   },
 
   vite: {

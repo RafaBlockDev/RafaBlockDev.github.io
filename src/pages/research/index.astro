@@ -32,7 +32,7 @@ const items = (await getCollection('research', ({ data }) => !data.draft)).sort(
             </span>
             <div class="flex-1">
               <h2 class="font-serif text-lg text-ink">
-                <a href={withBase(`/research/${item.id}`)} class="hover:text-accent">
+                <a href={withBase(`/research/${item.id}/`)} class="hover:text-accent">
                   {item.data.title}
                 </a>
               </h2>
@@ -45,7 +45,7 @@ const items = (await getCollection('research', ({ data }) => !data.draft)).sort(
               <p class="mt-2 text-sm leading-relaxed text-ink/80">{item.data.summary}</p>
               <p class="mt-3">
                 <a
-                  href={withBase(`/research/${item.id}`)}
+                  href={withBase(`/research/${item.id}/`)}
                   class="font-mono text-xs text-accent underline underline-offset-2 hover:text-ink"
                 >
                   Details, abstract &amp; citation &rarr;
@@ -61,7 +61,7 @@ const items = (await getCollection('research', ({ data }) => !data.draft)).sort(
         <li class="max-w-2xl text-sm leading-relaxed text-ink/70">
           Research notes are being prepared for publication here. In the
           meantime, exploratory and in-progress material lives in the{' '}
-          <a href={withBase('/notebook')} class="text-accent underline underline-offset-2">
+          <a href={withBase('/notebook/')} class="text-accent underline underline-offset-2">
             notebook
           </a>
           .

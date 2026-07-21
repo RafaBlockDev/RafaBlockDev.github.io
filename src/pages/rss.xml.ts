@@ -11,7 +11,7 @@ export async function GET(context: APIContext) {
       title: entry.data.title,
       description: entry.data.summary,
       pubDate: entry.data.date,
-      link: `/notebook/${entry.id}`
+      link: `/notebook/${entry.id}/`
     }))
     .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
 
