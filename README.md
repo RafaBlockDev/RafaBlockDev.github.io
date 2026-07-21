@@ -17,12 +17,11 @@ Live at [rafablockdev.github.io](https://rafablockdev.github.io/).
 │   ├── content/
 │   │   ├── research/        # papers & technical/expository notes
 │   │   ├── projects/        # engineering case studies
-│   │   ├── writing/         # completed articles
 │   │   └── notebook/        # exploratory working notes (MDX)
 │   ├── layouts/             # AcademicLayout.astro (shared shell + nav)
 │   ├── lib/                 # site config, paths, JSON-LD builders
 │   ├── styles/global.css    # theme + shared article typography
-│   └── pages/               # index, research, projects, writing, notebook,
+│   └── pages/               # index, research, projects, notebook,
 │                            # about, 404, rss.xml
 └── astro.config.mjs         # site URL, /papers→/research redirect, sitemap
 ```
@@ -40,7 +39,7 @@ Run from the project root:
 
 ## Content
 
-All four sections (research, projects, writing, notebook) are Astro content
+All three sections (research, projects, notebook) are Astro content
 collections defined in `src/content.config.ts`. Add a new entry by dropping a
 Markdown/MDX file into the matching `src/content/` folder; `_template.md`
 files show the expected frontmatter. Entries with `draft: true` never render.

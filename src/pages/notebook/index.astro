@@ -19,8 +19,6 @@ const entries = (await getCollection('notebook', ({ data }) => !data.draft)).sor
   <p class="mt-2 max-w-2xl text-sm text-ink/70">
     Working notes, reading logs, and in-progress thinking, newest first.
     Entries here are exploratory by design; finished work graduates to{' '}
-    <a href={withBase('/writing')} class="text-accent underline underline-offset-2 hover:text-ink">Writing</a>
-    {' '}or{' '}
     <a href={withBase('/research')} class="text-accent underline underline-offset-2 hover:text-ink">Research</a>.
   </p>
 

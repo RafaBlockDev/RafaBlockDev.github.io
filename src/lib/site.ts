@@ -4,7 +4,7 @@ export const SITE = {
   shortName: 'rafael fuentes',
   title: 'Rafael Fuentes Rangel · Software Engineer, ML/AI',
   description:
-    'Personal website of Rafael Fuentes Rangel, a software engineer working in ML/AI. Research notes, engineering projects, writing, and a working notebook.',
+    'Personal website of Rafael Fuentes Rangel, a software engineer working in ML/AI. Research notes, engineering projects, and a working notebook.',
   author: 'Rafael Fuentes Rangel',
   locale: 'en_US'
 } as const;
@@ -20,7 +20,6 @@ export const NAV = [
   { href: '/', label: 'Home' },
   { href: '/research', label: 'Research' },
   { href: '/projects', label: 'Projects' },
-  { href: '/writing', label: 'Writing' },
   { href: '/notebook', label: 'Notebook' },
   { href: '/about', label: 'About' }
 ] as const;

@@ -11,16 +11,12 @@ const research = (await getCollection('research', ({ data }) => !data.draft)).so
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
-const writing = (await getCollection('writing', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
 const notebook = (await getCollection('notebook', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
 const selectedResearch = research.slice(0, 3);
 const selectedProjects = projects.slice(0, 3);
-const latestWriting = writing.slice(0, 3);
 const latestNotebook = notebook.slice(0, 3);
 
 const startHere = [
@@ -34,9 +30,6 @@ const startHere = [
     href: `/projects/${projects[0].id}`,
     title: projects[0].data.title
   },
-  writing.length > 0
-    ? { label: 'The writing archive', href: '/writing', title: 'Articles for technical readers' }
-    : null,
   notebook[0] && {
     label: 'The working notebook',
     href: '/notebook',
@@ -59,8 +52,7 @@ const startHere = [
       I build production-oriented AI systems and agentic workflows, and I
       explore problems at the intersection of machine learning, software
       engineering, mathematics, and scientific research. This site collects
-      my research notes, engineering projects, writing, and a working
-      notebook.
+      my research notes, engineering projects, and a working notebook.
     </p>
     <ul class="mt-6 flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs">
       <li><a href={SOCIAL.github} rel="me" class="text-accent underline underline-offset-2 hover:text-ink">GitHub</a></li>
@@ -166,48 +158,8 @@ const startHere = [
     </div>
   </section>
 
-  <!-- Latest writing + notebook -->
+  <!-- Notebook log -->
   <section class="mt-14 grid gap-12 lg:grid-cols-2">
-    <div aria-labelledby="writing-heading">
-      <div class="flex items-baseline justify-between border-b border-ink/10 pb-2">
-        <h2 id="writing-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
-          Latest Writing
-        </h2>
-        <a href={withBase('/writing')} class="font-mono text-xs text-ink/60 hover:text-accent"
-          >all writing &rarr;</a
-        >
-      </div>
-      <ul class="mt-4 space-y-6">
-        {
-          latestWriting.map((post) => (
-            <li>
-              <a
-                href={withBase(`/writing/${post.id}`)}
-                class="font-serif text-base text-ink hover:text-accent"
-              >
-                {post.data.title}
-              </a>
-              <p class="mt-1 font-mono text-xs text-ink/60">
-                {dateFormatter.format(post.data.date)}
-              </p>
-              <p class="mt-1 text-sm text-ink/70">{post.data.summary}</p>
-            </li>
-          ))
-        }
-        {
-          latestWriting.length === 0 && (
-            <li class="text-sm text-ink/60">
-              Articles are being written. Working notes appear in the{' '}
-              <a href={withBase('/notebook')} class="text-accent underline underline-offset-2">
-                notebook
-              </a>{' '}
-              first.
-            </li>
-          )
-        }
-      </ul>
-    </div>
-
     <div aria-labelledby="notebook-heading">
       <div class="flex items-baseline justify-between border-b border-ink/10 pb-2">
         <h2 id="notebook-heading" class="font-mono text-xs uppercase tracking-wide text-accent">

@@ -19,8 +19,8 @@
   }
 }
 
-/* Article body typography, shared by notebook, research, writing, and
-   project pages. Kept out of Tailwind utilities so Markdown output styles
+/* Article body typography, shared by notebook, research, and project
+   pages. Kept out of Tailwind utilities so Markdown output styles
    consistently without per-page <style> blocks. */
 .prose-doc {
   font-size: 1.0625rem;

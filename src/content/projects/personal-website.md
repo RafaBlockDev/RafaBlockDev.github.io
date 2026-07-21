@@ -24,7 +24,7 @@ a server.
 
 The site is fully static, built with Astro and deployed to GitHub Pages
 through a GitHub Actions workflow. Content lives in typed content
-collections (research, projects, writing, notebook), each with a schema
+collections (research, projects, notebook), each with a schema
 that enforces honest metadata: publication status labels, dates, and
 draft flags. Nothing renders publicly unless it is explicitly marked
 ready.

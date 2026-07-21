@@ -50,19 +50,6 @@ const projects = defineCollection({
   })
 });
 
-const writing = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/writing' }),
-  schema: z.object({
-    title: z.string(),
-    summary: z.string(),
-    date: z.date(),
-    updatedDate: z.date().optional(),
-    tags: z.array(z.string()).default([]),
-    ogImage: z.string().optional(),
-    draft: z.boolean().default(false)
-  })
-});
-
 const notebook = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/notebook' }),
   schema: z.object({
@@ -77,4 +64,4 @@ const notebook = defineCollection({
   })
 });
 
-export const collections = { research, projects, writing, notebook };
+export const collections = { research, projects, notebook };
