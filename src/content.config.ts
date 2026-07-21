@@ -5,6 +5,7 @@ const research = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/research' }),
   schema: z.object({
     title: z.string(),
+    subtitle: z.string().optional(),
     authors: z.array(z.string()),
     status: z.enum([
       'published',

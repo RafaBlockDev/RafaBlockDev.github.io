@@ -36,7 +36,7 @@ export const RESEARCH_STATUS_LABELS: Record<ResearchStatus, string> = {
   published: 'Published',
   preprint: 'Preprint',
   'technical-note': 'Technical note',
-  'expository-note': 'Expository note',
+  'expository-note': 'Expository mathematical note',
   'work-in-progress': 'Work in progress',
   'notebook-entry': 'Notebook entry'
 };

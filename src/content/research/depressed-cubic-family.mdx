@@ -1,0 +1,246 @@
+---
+title: "A Geometric Classification of the Depressed Cubic Family"
+subtitle: "Discriminant, Multiplicity, and Bifurcations in Parameter Space"
+authors:
+  - "Rafael Fuentes Rangel"
+status: "expository-note"
+date: 2026-07-20
+version: "Version 1.1"
+summary: >
+  A study of the real two-parameter family f(x) = x³ + ax + b, showing how
+  the discriminant partitions parameter space by the number and multiplicity
+  of real roots. The bifurcation boundary is a semicubical cusp, and it
+  corresponds exactly to the appearance of a multiple root.
+abstract: >
+  We study the real two-parameter family f(x) = x³ + ax + b as a compact
+  model of a complete parametric investigation. The number and multiplicity
+  of real roots are classified by the discriminant Δ(a,b) = −4a³ − 27b².
+  The bifurcation locus is a semicubical cusp, naturally parametrized by
+  (−3t², 2t³), and its geometry is related directly to the appearance of
+  multiple roots. We identify the regions containing one and three real
+  roots, explain the transition through critical values, and present
+  representative examples.
+contributions:
+  - "A complete, elementary classification of the real-root structure of x³ + ax + b by the sign of the discriminant."
+  - "An explicit polynomial parametrization of the cusp locus, with a direct verification of its unique singular point."
+  - "A single geometric account connecting critical-point analysis, the discriminant, and the bifurcation curve."
+limitations:
+  - "Only the real depressed cubic family is treated; the general cubic reduces to this case by the standard depression substitution, which is not carried out here."
+  - "The higher-degree and multi-parameter extensions in Further Directions are sketched as directions, not worked out."
+tags:
+  [
+    "cubic-polynomials",
+    "discriminants",
+    "multiple-roots",
+    "bifurcations",
+    "parameter-space",
+    "singularity-theory",
+    "algebra",
+    "calculus"
+  ]
+ogImage: "/og/research-depressed-cubic-family.png"
+bibtex: |
+  @article{fuentesrangel2026depressedcubic,
+    author = {Rafael Fuentes Rangel},
+    title = {A Geometric Classification of the Depressed Cubic Family: Discriminant, Multiplicity, and Bifurcations in Parameter Space},
+    year = {2026},
+    month = {July},
+    note = {Expository mathematical note, version 1.1},
+    url = {https://rafablockdev.github.io/research/depressed-cubic-family/}
+  }
+draft: false
+---
+
+import CuspFigure from '../../components/CuspFigure.astro';
+
+> This is an expository mathematical note. The results are classical; the
+> contribution is the organization, geometric interpretation, and
+> presentation of the analysis.
+
+## Overview
+
+A family of functions depending on parameters is one of the most accessible
+settings for a real mathematical investigation. Instead of studying one
+object, the question becomes how a property changes as the parameters move,
+and parameter space itself becomes the object of study: it splits into
+regions where the behavior is qualitatively the same, separated by a
+boundary where something degenerates.
+
+The depressed cubic
+
+$$
+f_{a,b}(x) = x^3 + ax + b, \qquad (a,b) \in \mathbb{R}^2,
+$$
+
+is a compact model for this kind of investigation. *Depressed* means the
+quadratic term has been removed; every monic cubic can be brought to this
+form by translating the variable, so nothing is lost by studying it in this
+reduced shape. Despite its simplicity, the family already shows multiple
+roots, regions of constant real-root behavior, and a discriminant curve with
+a genuine singularity, a cusp.
+
+The classification problem is simple to state: for which $(a,b)$ does
+$f_{a,b}$ have one real root, and for which does it have three? The answer
+turns out to be governed entirely by one quantity.
+
+## Main result
+
+The sign of the discriminant
+
+$$
+\Delta(a,b) = -4a^3 - 27b^2
+$$
+
+completely determines the real-root structure of $f_{a,b}$.
+
+> **$\Delta > 0$:** three distinct real roots.
+> **$\Delta = 0$:** a multiple root.
+> **$\Delta < 0$:** exactly one real root (and a complex-conjugate pair).
+
+In words: as $(a,b)$ crosses the curve $\Delta = 0$, two real roots collide
+and disappear into a complex-conjugate pair, or vice versa. That curve is
+the entire subject of what follows.
+
+## Critical points and global shape
+
+The derivative is $f'_{a,b}(x) = 3x^2 + a$, so the shape of the graph
+depends only on the sign of $a$:
+
+- **$a > 0$:** $f'_{a,b} > 0$ everywhere, so $f_{a,b}$ is strictly
+  increasing and crosses zero exactly once.
+- **$a = 0$:** $f'_{a,b}$ has a single degenerate zero at $x = 0$; the
+  function is still increasing overall.
+- **$a < 0$:** $f'_{a,b}$ has two distinct zeros,
+  $x_\pm = \pm\sqrt{-a/3}$, giving a local maximum at $x_-$ and a local
+  minimum at $x_+$.
+
+The two critical points are what make three real roots possible at all. A
+monic cubic goes from $-\infty$ to $+\infty$, so it always crosses zero at
+least once; a *second* and *third* crossing can only appear if the graph
+first rises to a positive local maximum and then dips back down to a
+negative local minimum. Writing $s = \sqrt{-a/3}$, the critical values are
+
+$$
+f_{a,b}(-s) = b + 2s^3, \qquad f_{a,b}(s) = b - 2s^3,
+$$
+
+and three distinct real roots occur exactly when $-2s^3 < b < 2s^3$: the
+local maximum is positive and the local minimum is negative.
+
+## Discriminant and multiplicity
+
+A repeated root is a point where the graph is tangent to the axis, not just
+crossing it. That means a multiple root $r$ must satisfy both
+
+$$
+r^3 + ar + b = 0 \qquad \text{and} \qquad 3r^2 + a = 0
+$$
+
+simultaneously: the function vanishes *and* its derivative vanishes at the
+same point. Solving the second equation for $a$ and substituting into the
+first gives
+
+$$
+a = -3r^2, \qquad b = 2r^3.
+$$
+
+Substituting these into $\Delta(a,b) = -4a^3 - 27b^2$ gives $\Delta = 0$
+identically, for every $r$. So every multiple root traces out a curve in
+$(a,b)$-space, and $\Delta = 0$ is precisely that curve.
+
+## Geometry of the bifurcation curve
+
+The bifurcation boundary is the algebraic curve
+
+$$
+\mathcal{D} = \{(a,b) \in \mathbb{R}^2 : 4a^3 + 27b^2 = 0\},
+$$
+
+and the substitution above gives it a clean polynomial parametrization:
+
+$$
+\sigma(t) = (-3t^2,\ 2t^3), \qquad t \in \mathbb{R}.
+$$
+
+Along this curve, the polynomial factors explicitly as a perfect square
+times a linear term:
+
+$$
+f_{-3t^2,\,2t^3}(x) = (x - t)^2 (x + 2t).
+$$
+
+The point $t = 0$ is special. There, $\sigma(0) = (0,0)$, and checking the
+partial derivatives of $G(a,b) = 4a^3 + 27b^2$ shows that the origin is the
+*only* point where the curve fails to be smooth: $G_a = 12a^2$ and
+$G_b = 54b$ both vanish only at $(a,b) = (0,0)$. Geometrically, the two
+branches of the curve meet at the origin with a shared tangent line rather
+than crossing transversally, the defining picture of a semicubical cusp.
+
+<CuspFigure />
+
+## Root classification
+
+Putting the pieces together gives a complete classification. Away from
+$a = 0$, write $a = -3s^2$; then $\Delta(a,b) = 27(2s^3 - b)(2s^3 + b)$,
+which is positive exactly on the three-root interval found above.
+
+| Condition | Shape of the graph | Real roots |
+|---|---|---|
+| $\Delta > 0$ | positive local max, negative local min | three simple roots |
+| $\Delta = 0$, $(a,b) \neq (0,0)$ | tangent to the axis at one point | one double root, one simple root |
+| $(a,b) = (0,0)$ | degenerate horizontal inflection | one triple root |
+| $\Delta < 0$ | crosses the axis once | one simple root |
+
+When $a \geq 0$ the function is increasing everywhere, so $\Delta \leq 0$
+automatically and equality holds only at the origin; the interesting case
+is entirely contained in $a < 0$, where the cusp lives.
+
+## Representative examples
+
+**Three real roots.** For $(a,b) = (-3,0)$,
+
+$$
+f_{-3,0}(x) = x^3 - 3x = x(x - \sqrt3)(x + \sqrt3), \qquad \Delta(-3,0) = 108 > 0.
+$$
+
+**A double root.** For $(a,b) = (-3,2)$,
+
+$$
+f_{-3,2}(x) = x^3 - 3x + 2 = (x-1)^2(x+2), \qquad \Delta(-3,2) = 0.
+$$
+
+**One real root.** For $(a,b) = (1,1)$, the polynomial $x^3 + x + 1$ is
+strictly increasing, and $\Delta(1,1) = -31 < 0$.
+
+## Further directions
+
+The same method — locate the critical points, impose a degeneracy
+condition to derive the exceptional locus, then classify the connected
+components of its complement — extends to richer families. A natural next
+case is the quintic $g_{a,b,c}(x) = x^5 + ax^3 + bx + c$, whose parameter
+space is three-dimensional and whose discriminant surface has a more
+intricate singular geometry. Polynomial maps in two variables offer another
+direction, where the Jacobian determinant takes over the role of the
+ordinary derivative and questions of local and global invertibility arise.
+
+## Conclusion
+
+The depressed cubic family gives a complete, visually transparent
+classification. The discriminant $\Delta = -4a^3 - 27b^2$ records both
+multiplicity and the number of real roots, while the locus $\Delta = 0$ is
+a cusp parametrized by $(-3t^2, 2t^3)$. It is a small example, but it shows
+how calculus, algebra, and elementary singularity theory settle the same
+question from three different directions at once.
+
+## Citing this note
+
+Rafael Fuentes Rangel. "A Geometric Classification of the Depressed Cubic
+Family: Discriminant, Multiplicity, and Bifurcations in Parameter Space."
+Expository mathematical note, version 1.1, July 20, 2026.
+
+## References
+
+1. V. I. Arnold, *Catastrophe Theory*, 3rd ed., Springer, 1992.
+2. D. Cox, J. Little, and D. O'Shea, *Ideals, Varieties, and Algorithms*, 4th ed., Springer, 2015.
+3. I. M. Gelfand, M. M. Kapranov, and A. V. Zelevinsky, *Discriminants, Resultants, and Multidimensional Determinants*, Birkhäuser, 1994.
+4. S. Lang, *Algebra*, 3rd ed., Springer, 2002.
