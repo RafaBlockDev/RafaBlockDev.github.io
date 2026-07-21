@@ -1,0 +1,76 @@
+---
+import { SITE } from '../lib/site';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path (with leading slash) or absolute URL to the social image. */
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  noindex?: boolean;
+  /** JSON-LD objects to embed. */
+  jsonLd?: object[];
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og/default.png',
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  noindex = false,
+  jsonLd = []
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(withBase(ogImage), SITE.url).href;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content={SITE.author} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
+
+<link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+<link rel="icon" href={withBase('/favicon.ico')} sizes="32x32" />
+<link rel="manifest" href={withBase('/site.webmanifest')} />
+<link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${SITE.name} — feed`}
+  href={withBase('/rss.xml')}
+/>
+
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{ogType === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime.toISOString()} />
+)}
+{ogType === 'article' && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+)}
+{ogType === 'article' && <meta property="article:author" content={SITE.author} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+{jsonLd.map((obj) => (
+  <script type="application/ld+json" set:html={JSON.stringify(obj)} />
+))}

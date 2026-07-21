@@ -1,41 +1,82 @@
 ---
 import 'katex/dist/katex.min.css';
 import '../styles/global.css';
+import BaseHead from '../components/BaseHead.astro';
 import { withBase } from '../lib/paths';
+import { NAV, SITE, SOCIAL } from '../lib/site';
 
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  noindex?: boolean;
+  jsonLd?: object[];
 }
 
-const { title, description = 'An academic AI research notebook: papers, notes, and works in progress.' } = Astro.props;
+const {
+  title,
+  description = SITE.description,
+  ogImage,
+  ogType,
+  publishedTime,
+  modifiedTime,
+  noindex,
+  jsonLd
+} = Astro.props;
 
-const nav = [
-  { href: withBase('/'), label: 'Home' },
-  { href: withBase('/papers'), label: 'Papers' },
-  { href: withBase('/notebook'), label: 'Notebook' }
-];
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const basePrefix = withBase('/').replace(/\/$/, '');
+
+function isCurrent(href: string): boolean {
+  const full = (basePrefix + href).replace(/\/$/, '') || '/';
+  if (href === '/') return currentPath === full;
+  return currentPath === full || currentPath.startsWith(full + '/');
+}
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
-    <title>{title}</title>
+    <BaseHead
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      ogType={ogType}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      noindex={noindex}
+      jsonLd={jsonLd}
+    />
   </head>
   <body class="min-h-screen bg-paper font-serif text-ink antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:px-3 focus:py-2 focus:font-mono focus:text-sm focus:text-accent focus:outline focus:outline-2 focus:outline-accent"
+    >
+      Skip to content
+    </a>
+
     <header class="border-b border-ink/10">
-      <div class="mx-auto flex max-w-[78rem] flex-wrap items-baseline justify-between gap-x-8 gap-y-2 px-6 py-6">
+      <div
+        class="mx-auto flex max-w-[78rem] flex-wrap items-baseline justify-between gap-x-8 gap-y-2 px-6 py-6"
+      >
         <a href={withBase('/')} class="font-mono text-sm tracking-tight text-ink">
-          <span class="text-accent">&gt;</span> research notebook
+          <span class="text-accent" aria-hidden="true">&gt;</span> {SITE.shortName}
         </a>
-        <nav class="flex gap-6 font-mono text-xs uppercase tracking-wide text-ink/70">
+        <nav aria-label="Main" class="flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs uppercase tracking-wide text-ink/70">
           {
-            nav.map((item) => (
-              <a href={item.href} class="transition-colors hover:text-accent">
+            NAV.map((item) => (
+              <a
+                href={withBase(item.href)}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+                class:list={[
+                  'transition-colors hover:text-accent',
+                  isCurrent(item.href) && 'text-accent underline underline-offset-4'
+                ]}
+              >
                 {item.label}
               </a>
             ))
@@ -44,13 +85,29 @@ const nav = [
       </div>
     </header>
 
-    <main class="mx-auto max-w-[78rem] px-6 py-10">
+    <main id="main" class="mx-auto max-w-[78rem] px-6 py-10">
       <slot />
     </main>
 
     <footer class="mt-16 border-t border-ink/10">
-      <div class="mx-auto max-w-[78rem] px-6 py-8 font-mono text-xs text-ink/50">
-        <p>Updated continuously. Views and errors are my own.</p>
+      <div
+        class="mx-auto flex max-w-[78rem] flex-wrap items-baseline justify-between gap-x-8 gap-y-3 px-6 py-8 font-mono text-xs text-ink/60"
+      >
+        <p>© {new Date().getFullYear()} {SITE.name}. Views and errors are my own.</p>
+        <ul class="flex flex-wrap gap-x-5 gap-y-1">
+          <li>
+            <a href={SOCIAL.github} rel="me" class="hover:text-accent">GitHub</a>
+          </li>
+          <li>
+            <a href={SOCIAL.x} rel="me" class="hover:text-accent">X</a>
+          </li>
+          <li>
+            <a href={`mailto:${SOCIAL.email}`} class="hover:text-accent">Email</a>
+          </li>
+          <li>
+            <a href={withBase('/rss.xml')} class="hover:text-accent">RSS</a>
+          </li>
+        </ul>
       </div>
     </footer>
   </body>

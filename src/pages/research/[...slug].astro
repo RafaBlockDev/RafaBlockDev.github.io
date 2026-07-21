@@ -1,0 +1,220 @@
+---
+import AcademicLayout from '../../layouts/AcademicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { withBase } from '../../lib/paths';
+import { SITE, RESEARCH_STATUS_LABELS, dateFormatter } from '../../lib/site';
+import { articleJsonLd, breadcrumbJsonLd } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const items = await getCollection('research', ({ data }) => !data.draft);
+  return items.map((item) => ({
+    params: { slug: item.id },
+    props: { item }
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'research'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const data = item.data;
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Research', href: '/research' },
+  { label: data.title }
+];
+
+const pageUrl = new URL(Astro.url.pathname, SITE.url).href;
+const jsonLd = [
+  articleJsonLd({
+    type: data.status === 'published' || data.status === 'preprint' ? 'ScholarlyArticle' : 'TechArticle',
+    title: data.title,
+    description: data.summary,
+    url: pageUrl,
+    datePublished: data.date,
+    dateModified: data.updatedDate,
+    authors: data.authors
+  }),
+  breadcrumbJsonLd(crumbs)
+];
+---
+
+<AcademicLayout
+  title={`${data.title} — ${SITE.name}`}
+  description={data.summary}
+  ogType="article"
+  ogImage={data.ogImage}
+  publishedTime={data.date}
+  modifiedTime={data.updatedDate}
+  jsonLd={jsonLd}
+>
+  <article class="mx-auto max-w-2xl">
+    <Breadcrumbs crumbs={crumbs} />
+
+    <header class="mt-6">
+      <p class="font-mono text-xs uppercase tracking-wide text-accent">
+        {RESEARCH_STATUS_LABELS[data.status]}
+      </p>
+      <h1 class="mt-2 font-serif text-2xl font-normal leading-snug text-ink">{data.title}</h1>
+      <p class="mt-3 text-sm text-ink/80">{data.authors.join(', ')}</p>
+      <p class="mt-1 font-mono text-xs text-ink/60">
+        {data.venue && <>{data.venue} &middot; </>}
+        {dateFormatter.format(data.date)}
+        {data.updatedDate && <> &middot; updated {dateFormatter.format(data.updatedDate)}</>}
+        {data.version && <> &middot; {data.version}</>}
+      </p>
+      {
+        data.tags.length > 0 && (
+          <ul class="mt-3 flex flex-wrap gap-2" aria-label="Tags">
+            {data.tags.map((tag) => (
+              <li class="rounded-sm bg-accent/5 px-2 py-0.5 font-mono text-[0.65rem] text-accent">
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+      {
+        (data.pdfUrl || data.codeUrl || data.arxivId) && (
+          <ul class="mt-4 flex flex-wrap items-center gap-4 font-mono text-xs" aria-label="Links">
+            {data.pdfUrl && (
+              <li>
+                <a href={data.pdfUrl} class="text-accent underline underline-offset-2 hover:text-ink">
+                  PDF
+                </a>
+              </li>
+            )}
+            {data.codeUrl && (
+              <li>
+                <a href={data.codeUrl} class="text-accent underline underline-offset-2 hover:text-ink">
+                  Code
+                </a>
+              </li>
+            )}
+            {data.arxivId && (
+              <li>
+                <a
+                  href={`https://arxiv.org/abs/${data.arxivId}`}
+                  class="text-accent underline underline-offset-2 hover:text-ink"
+                >
+                  arXiv:{data.arxivId}
+                </a>
+              </li>
+            )}
+          </ul>
+        )
+      }
+    </header>
+
+    <section class="mt-8" aria-labelledby="abstract-heading">
+      <h2 id="abstract-heading" class="font-mono text-xs uppercase tracking-wide text-ink/60">
+        Abstract
+      </h2>
+      <p class="mt-2 text-[1.0625rem] leading-relaxed text-ink/90">{data.abstract}</p>
+    </section>
+
+    {
+      data.contributions.length > 0 && (
+        <section class="mt-8" aria-labelledby="contributions-heading">
+          <h2
+            id="contributions-heading"
+            class="font-mono text-xs uppercase tracking-wide text-ink/60"
+          >
+            Main contributions
+          </h2>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-[1rem] leading-relaxed text-ink/85">
+            {data.contributions.map((c) => (
+              <li>{c}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <div class="prose-doc mt-8 max-w-none">
+      <Content />
+    </div>
+
+    {
+      data.limitations.length > 0 && (
+        <section class="mt-10 border-t border-ink/10 pt-6" aria-labelledby="limitations-heading">
+          <h2
+            id="limitations-heading"
+            class="font-mono text-xs uppercase tracking-wide text-ink/60"
+          >
+            Limitations
+          </h2>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-ink/80">
+            {data.limitations.map((l) => (
+              <li>{l}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      data.related.length > 0 && (
+        <section class="mt-8" aria-labelledby="related-heading">
+          <h2 id="related-heading" class="font-mono text-xs uppercase tracking-wide text-ink/60">
+            Related
+          </h2>
+          <ul class="mt-2 space-y-1">
+            {data.related.map((slug) => (
+              <li>
+                <a
+                  href={withBase(`/research/${slug}`)}
+                  class="text-sm text-accent underline underline-offset-2 hover:text-ink"
+                >
+                  {slug}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      data.bibtex && (
+        <section class="mt-10 border-t border-ink/10 pt-6" aria-labelledby="cite-heading">
+          <h2 id="cite-heading" class="font-mono text-xs uppercase tracking-wide text-ink/60">
+            Cite
+          </h2>
+          <div class="relative mt-2">
+            <pre class="overflow-x-auto rounded-sm border border-ink/10 bg-ink/5 p-3 font-mono text-xs leading-relaxed text-ink/80"><code>{data.bibtex}</code></pre>
+            <button
+              type="button"
+              class="bibtex-copy absolute top-2 right-2 rounded-sm border border-ink/20 bg-paper px-2 py-1 font-mono text-[0.65rem] text-ink/70 hover:border-accent hover:text-accent"
+              data-bibtex={data.bibtex}
+            >
+              Copy
+            </button>
+          </div>
+        </section>
+      )
+    }
+  </article>
+</AcademicLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.bibtex-copy').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const bibtex = button.dataset.bibtex ?? '';
+      try {
+        await navigator.clipboard.writeText(bibtex);
+        const original = button.textContent;
+        button.textContent = 'Copied';
+        setTimeout(() => {
+          button.textContent = original;
+        }, 1500);
+      } catch {
+        // Clipboard API unavailable; no-op.
+      }
+    });
+  });
+</script>

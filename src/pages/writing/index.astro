@@ -1,0 +1,52 @@
+---
+import AcademicLayout from '../../layouts/AcademicLayout.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../../lib/paths';
+import { SITE, dateFormatter } from '../../lib/site';
+import { breadcrumbJsonLd } from '../../lib/jsonld';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<AcademicLayout
+  title={`Writing — ${SITE.name}`}
+  description="Articles for technical readers by Rafael Fuentes Rangel: explainers, engineering articles, mathematical notes, and project retrospectives."
+  jsonLd={[breadcrumbJsonLd([{ label: 'Home', href: '/' }, { label: 'Writing' }])]}
+>
+  <h1 class="font-serif text-2xl font-normal text-ink">Writing</h1>
+  <p class="mt-2 max-w-2xl text-sm text-ink/70">
+    Completed articles for technical readers: explainers, engineering
+    articles, research commentary, and retrospectives. Unfinished thinking
+    stays in the <a href={withBase('/notebook')} class="text-accent underline underline-offset-2 hover:text-ink">notebook</a>.
+  </p>
+
+  <ol class="mt-10 max-w-2xl space-y-8">
+    {
+      posts.map((post) => (
+        <li class="border-b border-ink/10 pb-6 last:border-none">
+          <h2 class="font-serif text-lg text-ink">
+            <a href={withBase(`/writing/${post.id}`)} class="hover:text-accent">
+              {post.data.title}
+            </a>
+          </h2>
+          <p class="mt-1 font-mono text-xs text-ink/60">{dateFormatter.format(post.data.date)}</p>
+          <p class="mt-2 text-sm leading-relaxed text-ink/80">{post.data.summary}</p>
+        </li>
+      ))
+    }
+    {
+      posts.length === 0 && (
+        <li class="text-sm leading-relaxed text-ink/70">
+          Articles are being written. Working notes and early ideas appear in
+          the{' '}
+          <a href={withBase('/notebook')} class="text-accent underline underline-offset-2">
+            notebook
+          </a>{' '}
+          first, then graduate here once they are complete.
+        </li>
+      )
+    }
+  </ol>
+</AcademicLayout>

@@ -2,88 +2,263 @@
 import AcademicLayout from '../layouts/AcademicLayout.astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../lib/paths';
+import { SITE, SOCIAL, RESEARCH_STATUS_LABELS, dateFormatter } from '../lib/site';
+import { personJsonLd, websiteJsonLd, profilePageJsonLd } from '../lib/jsonld';
 
-const papers = (await getCollection('papers')).sort(
+const research = (await getCollection('research', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
-const featuredPapers = papers.slice(0, 3);
-
-const notebookEntries = (await getCollection('notebook')).sort(
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
-const recentEntries = notebookEntries.slice(0, 5);
+const writing = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const notebook = (await getCollection('notebook', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric'
-});
+const selectedResearch = research.slice(0, 3);
+const selectedProjects = projects.slice(0, 3);
+const latestWriting = writing.slice(0, 3);
+const latestNotebook = notebook.slice(0, 3);
+
+const startHere = [
+  research[0] && {
+    label: 'A research note',
+    href: `/research/${research[0].id}`,
+    title: research[0].data.title
+  },
+  projects[0] && {
+    label: 'An engineering project',
+    href: `/projects/${projects[0].id}`,
+    title: projects[0].data.title
+  },
+  writing.length > 0
+    ? { label: 'The writing archive', href: '/writing', title: 'Articles for technical readers' }
+    : null,
+  notebook[0] && {
+    label: 'The working notebook',
+    href: '/notebook',
+    title: 'Exploratory notes and early ideas'
+  }
+].filter((x) => x != null);
 ---
 
-<AcademicLayout title="Research Notebook — Rafa Fuentes">
+<AcademicLayout
+  title={SITE.title}
+  description={SITE.description}
+  ogType="profile"
+  jsonLd={[profilePageJsonLd(), personJsonLd(), websiteJsonLd()]}
+>
+  <!-- Hero -->
   <section class="max-w-2xl">
-    <h1 class="font-serif text-3xl font-normal text-ink">Rafa Fuentes</h1>
-    <p class="mt-2 font-mono text-sm text-ink/60">AI Research &middot; Notes &middot; Preprints</p>
+    <h1 class="font-serif text-3xl font-normal text-ink">Rafael Fuentes Rangel</h1>
+    <p class="mt-2 font-mono text-sm text-ink/70">Software Engineer &middot; ML/AI Engineer</p>
     <p class="mt-6 text-lg leading-relaxed text-ink/90">
-      I work on efficiency and alignment problems in large language models —
-      currently focused on sparse attention mechanisms for long-context
-      inference and curriculum design for RLHF fine-tuning. This site is a
-      running notebook: preprints on the left, working notes on the right,
-      and not much distinction in rigor between the two.
+      I build production-oriented AI systems and agentic workflows, and I
+      explore problems at the intersection of machine learning, software
+      engineering, mathematics, and scientific research. This site collects
+      my research notes, engineering projects, writing, and a working
+      notebook.
     </p>
-  </section>
-
-  <section class="mt-12 max-w-2xl">
-    <h2 class="font-mono text-xs uppercase tracking-wide text-accent">Current AI Focus</h2>
-    <ul class="mt-3 space-y-2 text-ink/85">
-      <li>Sub-quadratic attention routing for 100k+ token contexts.</li>
-      <li>Sample-efficient curricula for RL-based alignment fine-tuning.</li>
-      <li>Evaluation methodology for long-context claims.</li>
+    <ul class="mt-6 flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs">
+      <li><a href={SOCIAL.github} rel="me" class="text-accent underline underline-offset-2 hover:text-ink">GitHub</a></li>
+      <li><a href={SOCIAL.x} rel="me" class="text-accent underline underline-offset-2 hover:text-ink">X</a></li>
+      <li><a href={`mailto:${SOCIAL.email}`} class="text-accent underline underline-offset-2 hover:text-ink">Email</a></li>
+      <li><a href={withBase('/about')} class="text-accent underline underline-offset-2 hover:text-ink">About &rarr;</a></li>
     </ul>
   </section>
 
+  <!-- Current focus -->
+  <section class="mt-12 max-w-2xl" aria-labelledby="focus-heading">
+    <h2 id="focus-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+      Current Focus
+    </h2>
+    <ul class="mt-3 space-y-2 text-ink/85">
+      <li>Production ML/AI systems and agentic workflows.</li>
+      <li>Mathematics and scientific computing as engineering tools.</li>
+      <li>Research tooling: making experiments reproducible and legible.</li>
+    </ul>
+  </section>
+
+  <!-- Selected research + projects -->
   <section class="mt-14 grid gap-12 lg:grid-cols-2">
-    <div>
+    <div aria-labelledby="research-heading">
       <div class="flex items-baseline justify-between border-b border-ink/10 pb-2">
-        <h2 class="font-mono text-xs uppercase tracking-wide text-accent">Featured Preprints</h2>
-        <a href={withBase('/papers')} class="font-mono text-xs text-ink/50 hover:text-accent">all papers &rarr;</a>
+        <h2 id="research-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+          Selected Research
+        </h2>
+        <a href={withBase('/research')} class="font-mono text-xs text-ink/60 hover:text-accent"
+          >all research &rarr;</a
+        >
       </div>
       <ul class="mt-4 space-y-6">
         {
-          featuredPapers.map((paper) => (
+          selectedResearch.map((item) => (
             <li>
-              <a href={withBase(`/papers#${paper.id}`)} class="font-serif text-base text-ink hover:text-accent">
-                {paper.data.title}
+              <a
+                href={withBase(`/research/${item.id}`)}
+                class="font-serif text-base text-ink hover:text-accent"
+              >
+                {item.data.title}
               </a>
-              <p class="mt-1 font-mono text-xs text-ink/50">
-                {paper.data.venue} &middot; {dateFormatter.format(paper.data.date)}
+              <p class="mt-1 font-mono text-xs text-ink/60">
+                {RESEARCH_STATUS_LABELS[item.data.status]} &middot;{' '}
+                {dateFormatter.format(item.data.date)}
               </p>
             </li>
           ))
         }
-        {featuredPapers.length === 0 && <p class="text-sm text-ink/50">No papers yet.</p>}
+        {
+          selectedResearch.length === 0 && (
+            <li class="text-sm text-ink/60">
+              Research notes are being prepared for this section. Exploratory
+              material lives in the{' '}
+              <a href={withBase('/notebook')} class="text-accent underline underline-offset-2">
+                notebook
+              </a>{' '}
+              in the meantime.
+            </li>
+          )
+        }
       </ul>
     </div>
 
-    <div>
+    <div aria-labelledby="projects-heading">
       <div class="flex items-baseline justify-between border-b border-ink/10 pb-2">
-        <h2 class="font-mono text-xs uppercase tracking-wide text-accent">Notebook Log</h2>
-        <a href={withBase('/notebook')} class="font-mono text-xs text-ink/50 hover:text-accent">all entries &rarr;</a>
+        <h2 id="projects-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+          Selected Projects
+        </h2>
+        <a href={withBase('/projects')} class="font-mono text-xs text-ink/60 hover:text-accent"
+          >all projects &rarr;</a
+        >
       </div>
       <ul class="mt-4 space-y-6">
         {
-          recentEntries.map((entry) => (
+          selectedProjects.map((project) => (
             <li>
-              <a href={withBase(`/notebook/${entry.id}`)} class="font-serif text-base text-ink hover:text-accent">
+              <a
+                href={withBase(`/projects/${project.id}`)}
+                class="font-serif text-base text-ink hover:text-accent"
+              >
+                {project.data.title}
+              </a>
+              <p class="mt-1 font-mono text-xs text-ink/60">
+                {dateFormatter.format(project.data.date)}
+              </p>
+              <p class="mt-1 text-sm text-ink/70">{project.data.summary}</p>
+            </li>
+          ))
+        }
+        {
+          selectedProjects.length === 0 && (
+            <li class="text-sm text-ink/60">
+              Project write-ups are in progress. Code lives on{' '}
+              <a href={SOCIAL.github} class="text-accent underline underline-offset-2">
+                GitHub
+              </a>
+              .
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Latest writing + notebook -->
+  <section class="mt-14 grid gap-12 lg:grid-cols-2">
+    <div aria-labelledby="writing-heading">
+      <div class="flex items-baseline justify-between border-b border-ink/10 pb-2">
+        <h2 id="writing-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+          Latest Writing
+        </h2>
+        <a href={withBase('/writing')} class="font-mono text-xs text-ink/60 hover:text-accent"
+          >all writing &rarr;</a
+        >
+      </div>
+      <ul class="mt-4 space-y-6">
+        {
+          latestWriting.map((post) => (
+            <li>
+              <a
+                href={withBase(`/writing/${post.id}`)}
+                class="font-serif text-base text-ink hover:text-accent"
+              >
+                {post.data.title}
+              </a>
+              <p class="mt-1 font-mono text-xs text-ink/60">
+                {dateFormatter.format(post.data.date)}
+              </p>
+              <p class="mt-1 text-sm text-ink/70">{post.data.summary}</p>
+            </li>
+          ))
+        }
+        {
+          latestWriting.length === 0 && (
+            <li class="text-sm text-ink/60">
+              Articles are being written. Working notes appear in the{' '}
+              <a href={withBase('/notebook')} class="text-accent underline underline-offset-2">
+                notebook
+              </a>{' '}
+              first.
+            </li>
+          )
+        }
+      </ul>
+    </div>
+
+    <div aria-labelledby="notebook-heading">
+      <div class="flex items-baseline justify-between border-b border-ink/10 pb-2">
+        <h2 id="notebook-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+          Notebook Log
+        </h2>
+        <a href={withBase('/notebook')} class="font-mono text-xs text-ink/60 hover:text-accent"
+          >all entries &rarr;</a
+        >
+      </div>
+      <ul class="mt-4 space-y-6">
+        {
+          latestNotebook.map((entry) => (
+            <li>
+              <a
+                href={withBase(`/notebook/${entry.id}`)}
+                class="font-serif text-base text-ink hover:text-accent"
+              >
                 {entry.data.title}
               </a>
-              <p class="mt-1 font-mono text-xs text-ink/50">{dateFormatter.format(entry.data.date)}</p>
+              <p class="mt-1 font-mono text-xs text-ink/60">
+                {dateFormatter.format(entry.data.date)}
+              </p>
               <p class="mt-1 text-sm text-ink/70">{entry.data.summary}</p>
             </li>
           ))
         }
-        {recentEntries.length === 0 && <p class="text-sm text-ink/50">No entries yet.</p>}
+        {latestNotebook.length === 0 && <li class="text-sm text-ink/60">No entries yet.</li>}
       </ul>
     </div>
+  </section>
+
+  <!-- Start here -->
+  <section class="mt-14 max-w-2xl border-t border-ink/10 pt-8" aria-labelledby="start-heading">
+    <h2 id="start-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+      Start Here
+    </h2>
+    <p class="mt-3 text-sm text-ink/70">New to the site? These are good entry points:</p>
+    <ul class="mt-4 space-y-3">
+      {
+        startHere.map((item) => (
+          <li class="flex flex-wrap items-baseline gap-x-3">
+            <span class="font-mono text-xs text-ink/60">{item.label}</span>
+            <a
+              href={withBase(item.href)}
+              class="font-serif text-base text-accent underline underline-offset-2 hover:text-ink"
+            >
+              {item.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 </AcademicLayout>

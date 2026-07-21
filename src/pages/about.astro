@@ -1,0 +1,92 @@
+---
+import AcademicLayout from '../layouts/AcademicLayout.astro';
+import { withBase } from '../lib/paths';
+import { SITE, SOCIAL } from '../lib/site';
+import { personJsonLd, breadcrumbJsonLd } from '../lib/jsonld';
+---
+
+<AcademicLayout
+  title={`About — ${SITE.name}`}
+  description="About Rafael Fuentes Rangel: software engineer working in ML/AI, with a background in fintech and blockchain engineering."
+  ogType="profile"
+  jsonLd={[personJsonLd(), breadcrumbJsonLd([{ label: 'Home', href: '/' }, { label: 'About' }])]}
+>
+  <article class="max-w-2xl">
+    <h1 class="font-serif text-2xl font-normal text-ink">About</h1>
+
+    <section class="mt-6 space-y-4 text-[1.0625rem] leading-relaxed text-ink/90">
+      <p>
+        I'm Rafael Fuentes Rangel, a software engineer currently working as an
+        ML/AI engineer. I build production-oriented AI systems and agentic
+        workflows, and I'm interested in the space where machine learning,
+        software engineering, mathematics, and scientific research overlap.
+      </p>
+      <p>
+        My background is in software engineering, including fintech and
+        blockchain work — smart contracts, decentralized applications, and
+        privacy-preserving computation. These days most of my energy goes into
+        ML/AI systems: getting models to do useful work reliably, and building
+        the tooling around them.
+      </p>
+      <p>
+        This site is my working record: research-oriented notes under{' '}
+        <a href={withBase('/research')} class="text-accent underline underline-offset-2 hover:text-ink">Research</a>,
+        engineering case studies under{' '}
+        <a href={withBase('/projects')} class="text-accent underline underline-offset-2 hover:text-ink">Projects</a>,
+        finished articles under{' '}
+        <a href={withBase('/writing')} class="text-accent underline underline-offset-2 hover:text-ink">Writing</a>,
+        and everything exploratory in the{' '}
+        <a href={withBase('/notebook')} class="text-accent underline underline-offset-2 hover:text-ink">Notebook</a>.
+      </p>
+    </section>
+
+    <section class="mt-10" aria-labelledby="interests-heading">
+      <h2 id="interests-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+        Technical Interests
+      </h2>
+      <ul class="mt-3 list-disc space-y-1 pl-5 text-ink/85">
+        <li>Machine learning and AI systems in production</li>
+        <li>Agentic workflows and LLM-based tooling</li>
+        <li>Mathematics and scientific computing</li>
+        <li>Research tooling and reproducibility</li>
+      </ul>
+    </section>
+
+    <section class="mt-10" aria-labelledby="tools-heading">
+      <h2 id="tools-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+        Selected Tools &amp; Technologies
+      </h2>
+      <p class="mt-3 text-ink/85">
+        TypeScript, Python, Solidity; Jupyter for exploration; Astro for this
+        site. The full picture is on{' '}
+        <a href={SOCIAL.github} class="text-accent underline underline-offset-2 hover:text-ink">GitHub</a>.
+      </p>
+    </section>
+
+    <section class="mt-10 border-t border-ink/10 pt-6" aria-labelledby="contact-heading">
+      <h2 id="contact-heading" class="font-mono text-xs uppercase tracking-wide text-accent">
+        Contact &amp; Elsewhere
+      </h2>
+      <ul class="mt-3 space-y-2 font-mono text-sm">
+        <li>
+          <span class="text-ink/60">Email:</span>{' '}
+          <a href={`mailto:${SOCIAL.email}`} class="text-accent underline underline-offset-2 hover:text-ink">
+            {SOCIAL.email}
+          </a>
+        </li>
+        <li>
+          <span class="text-ink/60">GitHub:</span>{' '}
+          <a href={SOCIAL.github} rel="me" class="text-accent underline underline-offset-2 hover:text-ink">
+            github.com/RafaBlockDev
+          </a>
+        </li>
+        <li>
+          <span class="text-ink/60">X:</span>{' '}
+          <a href={SOCIAL.x} rel="me" class="text-accent underline underline-offset-2 hover:text-ink">
+            x.com/Rafael41603219
+          </a>
+        </li>
+      </ul>
+    </section>
+  </article>
+</AcademicLayout>

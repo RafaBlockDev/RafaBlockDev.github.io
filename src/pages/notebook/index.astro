@@ -2,44 +2,54 @@
 import AcademicLayout from '../../layouts/AcademicLayout.astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../../lib/paths';
+import { SITE, dateFormatter } from '../../lib/site';
+import { breadcrumbJsonLd } from '../../lib/jsonld';
 
-const entries = (await getCollection('notebook')).sort(
+const entries = (await getCollection('notebook', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
-
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric'
-});
 ---
 
-<AcademicLayout title="Notebook — Research Notebook" description="Working notes and reading logs.">
+<AcademicLayout
+  title={`Notebook — ${SITE.name}`}
+  description="Working notes, experiments, reading logs, and early ideas by Rafael Fuentes Rangel — exploratory by design."
+  jsonLd={[breadcrumbJsonLd([{ label: 'Home', href: '/' }, { label: 'Notebook' }])]}
+>
   <h1 class="font-serif text-2xl font-normal text-ink">Notebook</h1>
-  <p class="mt-2 max-w-2xl text-sm text-ink/60">
+  <p class="mt-2 max-w-2xl text-sm text-ink/70">
     Working notes, reading logs, and in-progress thinking, newest first.
+    Entries here are exploratory by design — finished work graduates to{' '}
+    <a href={withBase('/writing')} class="text-accent underline underline-offset-2 hover:text-ink">Writing</a>
+    {' '}or{' '}
+    <a href={withBase('/research')} class="text-accent underline underline-offset-2 hover:text-ink">Research</a>.
   </p>
 
   <ol class="mt-10 max-w-2xl space-y-8">
     {
       entries.map((entry) => (
         <li class="border-b border-ink/10 pb-6 last:border-none">
-          <a href={withBase(`/notebook/${entry.id}`)} class="font-serif text-lg text-ink hover:text-accent">
-            {entry.data.title}
-          </a>
-          <p class="mt-1 font-mono text-xs text-ink/50">
+          <h2 class="font-serif text-lg text-ink">
+            <a href={withBase(`/notebook/${entry.id}`)} class="hover:text-accent">
+              {entry.data.title}
+            </a>
+          </h2>
+          <p class="mt-1 font-mono text-xs text-ink/60">
             {dateFormatter.format(entry.data.date)}
             {entry.data.updatedDate && <> &middot; updated {dateFormatter.format(entry.data.updatedDate)}</>}
           </p>
           <p class="mt-2 text-sm leading-relaxed text-ink/80">{entry.data.summary}</p>
-          <div class="mt-2 flex flex-wrap gap-2">
-            {entry.data.tags.map((tag) => (
-              <span class="rounded-sm bg-accent/5 px-2 py-0.5 font-mono text-[0.65rem] text-accent">{tag}</span>
-            ))}
-          </div>
+          {entry.data.tags.length > 0 && (
+            <ul class="mt-2 flex flex-wrap gap-2" aria-label="Tags">
+              {entry.data.tags.map((tag) => (
+                <li class="rounded-sm bg-accent/5 px-2 py-0.5 font-mono text-[0.65rem] text-accent">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          )}
         </li>
       ))
     }
-    {entries.length === 0 && <p class="text-sm text-ink/50">No entries yet.</p>}
+    {entries.length === 0 && <li class="text-sm text-ink/60">No entries yet.</li>}
   </ol>
 </AcademicLayout>

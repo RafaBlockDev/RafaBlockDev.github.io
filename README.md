@@ -1,6 +1,8 @@
-# Research Notebook
+# rafablockdev.github.io
 
-Rafa Fuentes's academic AI research notebook — preprints and working notes, built with [Astro](https://astro.build).
+Personal website and knowledge hub of Rafael Fuentes Rangel — software
+engineer working in ML/AI. Built with [Astro](https://astro.build), with a
+LaTeX-inspired design system.
 
 Live at [rafablockdev.github.io](https://rafablockdev.github.io/).
 
@@ -8,16 +10,21 @@ Live at [rafablockdev.github.io](https://rafablockdev.github.io/).
 
 ```text
 /
-├── public/                  # favicon and other static assets
+├── public/                  # favicon, robots.txt, manifest, og/ social cards
+├── scripts/generate-og.mjs  # social-preview card generator (bun run og)
 ├── src/
-│   ├── components/          # shared Astro components (e.g. Sidenote)
+│   ├── components/          # BaseHead (SEO), Breadcrumbs, Sidenote
 │   ├── content/
-│   │   ├── papers/          # preprint entries (markdown)
-│   │   └── notebook/        # working-notes entries (MDX)
-│   ├── layouts/              # AcademicLayout.astro (shared page shell + nav)
-│   ├── lib/paths.ts          # withBase() helper for base-path-safe links
-│   └── pages/                # index, /papers, /notebook, /notebook/[slug]
-└── astro.config.mjs
+│   │   ├── research/        # papers & technical/expository notes
+│   │   ├── projects/        # engineering case studies
+│   │   ├── writing/         # completed articles
+│   │   └── notebook/        # exploratory working notes (MDX)
+│   ├── layouts/             # AcademicLayout.astro (shared shell + nav)
+│   ├── lib/                 # site config, paths, JSON-LD builders
+│   ├── styles/global.css    # theme + shared article typography
+│   └── pages/               # index, research, projects, writing, notebook,
+│                            # about, 404, rss.xml
+└── astro.config.mjs         # site URL, /papers→/research redirect, sitemap
 ```
 
 ## Commands
@@ -33,7 +40,14 @@ Run from the project root:
 
 ## Content
 
-Papers and notebook entries are Astro content collections defined in `src/content.config.ts`. Add a new entry by dropping a markdown/MDX file into `src/content/papers/` or `src/content/notebook/`.
+All four sections (research, projects, writing, notebook) are Astro content
+collections defined in `src/content.config.ts`. Add a new entry by dropping a
+Markdown/MDX file into the matching `src/content/` folder — `_template.md`
+files show the expected frontmatter. Entries with `draft: true` never render.
+
+To give a page a custom social-preview card, run
+`bun run og -- --title "..." --category "Research" --out my-slug.png` and set
+`ogImage: "/og/my-slug.png"` in the entry's frontmatter.
 
 ## Deployment
 

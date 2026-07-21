@@ -1,0 +1,10 @@
+{
+  "name": "Rafael Fuentes Rangel",
+  "short_name": "rafael fuentes",
+  "description": "Software engineer working in ML/AI. Research notes, projects, writing, and a working notebook.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#faf9f6",
+  "theme_color": "#003366",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

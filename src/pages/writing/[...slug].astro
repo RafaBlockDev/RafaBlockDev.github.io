@@ -6,24 +6,24 @@ import { SITE, dateFormatter } from '../../lib/site';
 import { articleJsonLd, breadcrumbJsonLd } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('notebook', ({ data }) => !data.draft);
-  return entries.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry }
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
   }));
 }
 
 interface Props {
-  entry: CollectionEntry<'notebook'>;
+  post: CollectionEntry<'writing'>;
 }
 
-const { entry } = Astro.props;
-const { Content } = await render(entry);
-const data = entry.data;
+const { post } = Astro.props;
+const { Content } = await render(post);
+const data = post.data;
 
 const crumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Notebook', href: '/notebook' },
+  { label: 'Writing', href: '/writing' },
   { label: data.title }
 ];
 
@@ -54,8 +54,7 @@ const jsonLd = [
     <Breadcrumbs crumbs={crumbs} />
 
     <header class="mt-6">
-      <p class="font-mono text-xs uppercase tracking-wide text-accent">Notebook entry</p>
-      <h1 class="mt-2 font-serif text-2xl font-normal leading-snug text-ink">{data.title}</h1>
+      <h1 class="font-serif text-2xl font-normal leading-snug text-ink">{data.title}</h1>
       <p class="mt-2 font-mono text-xs text-ink/60">
         {dateFormatter.format(data.date)}
         {data.updatedDate && <> &middot; updated {dateFormatter.format(data.updatedDate)}</>}
