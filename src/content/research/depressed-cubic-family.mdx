@@ -51,7 +51,10 @@ bibtex: |
 draft: false
 ---
 
-import CuspFigure from '../../components/CuspFigure.astro';
+import DiscriminantCuspGraph from '../../components/math/DiscriminantCuspGraph.astro';
+import CubicThreeRootsGraph from '../../components/math/CubicThreeRootsGraph.astro';
+import CubicDoubleRootGraph from '../../components/math/CubicDoubleRootGraph.astro';
+import CubicOneRootGraph from '../../components/math/CubicOneRootGraph.astro';
 
 > This is an expository mathematical note. The results are classical; the
 > contribution is the organization, geometric interpretation, and
@@ -176,7 +179,7 @@ $G_b = 54b$ both vanish only at $(a,b) = (0,0)$. Geometrically, the two
 branches of the curve meet at the origin with a shared tangent line rather
 than crossing transversally, the defining picture of a semicubical cusp.
 
-<CuspFigure />
+<DiscriminantCuspGraph />
 
 ## Root classification
 
@@ -203,14 +206,20 @@ $$
 f_{-3,0}(x) = x^3 - 3x = x(x - \sqrt3)(x + \sqrt3), \qquad \Delta(-3,0) = 108 > 0.
 $$
 
+<CubicThreeRootsGraph />
+
 **A double root.** For $(a,b) = (-3,2)$,
 
 $$
 f_{-3,2}(x) = x^3 - 3x + 2 = (x-1)^2(x+2), \qquad \Delta(-3,2) = 0.
 $$
 
+<CubicDoubleRootGraph />
+
 **One real root.** For $(a,b) = (1,1)$, the polynomial $x^3 + x + 1$ is
 strictly increasing, and $\Delta(1,1) = -31 < 0$.
+
+<CubicOneRootGraph />
 
 ## Further directions
 

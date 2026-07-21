@@ -1,0 +1,116 @@
+---
+import JSXGraphPlot from './JSXGraphPlot.astro';
+
+const id = 'jxg-discriminant-cusp';
+---
+
+<JSXGraphPlot
+  id={id}
+  title="Discriminant curve in the (a, b) parameter plane"
+  description="Semicubical cusp in the a-b parameter plane. Points inside the cusp correspond to three distinct real roots, while points outside correspond to one real root. A draggable point shows the classification for any (a, b): drag it, or focus the figure and use the arrow keys."
+  caption="The discriminant curve partitions parameter space according to the number and multiplicity of real roots."
+  aspectRatio="23 / 16"
+  interactive
+>
+  <dl
+    id={`${id}-readout`}
+    class="mx-auto mt-3 flex max-w-xl flex-wrap justify-center gap-x-6 gap-y-1 font-mono text-xs text-ink/70"
+  >
+    <div class="flex gap-1"><dt class="text-ink/50">a =</dt><dd id={`${id}-a`}>&minus;2</dd></div>
+    <div class="flex gap-1"><dt class="text-ink/50">b =</dt><dd id={`${id}-b`}>0</dd></div>
+    <div class="flex gap-1"><dt class="text-ink/50">&Delta; =</dt><dd id={`${id}-delta`}>32</dd></div>
+    <div class="flex gap-1">
+      <dt class="text-ink/50">roots:</dt><dd id={`${id}-class`}>Three distinct real roots</dd>
+    </div>
+  </dl>
+</JSXGraphPlot>
+
+<script>
+  import { createBoard, addAxisLine, label, classifyDiscriminant, COLORS } from '../../lib/jsxgraph-utils';
+
+  const id = 'jxg-discriminant-cusp';
+  const container = document.getElementById(id);
+
+  if (container) {
+    const board = createBoard(id, { boundingbox: [-4.2, 3.2, 0.8, -3.2] });
+
+    addAxisLine(board, [1, 0]);
+    addAxisLine(board, [0, 1]);
+    label(board, 0.55, -0.3, 'a', { color: COLORS.ink, fontSize: 13 });
+    label(board, 0.12, 2.95, 'b', { color: COLORS.ink, fontSize: 13 });
+
+    // Delta = 0 locus, parametrized by (-3t^2, 2t^3): a native JSXGraph
+    // parametric curve rather than a hand-built path.
+    board.create('curve', [(t: number) => -3 * t * t, (t: number) => 2 * t * t * t, -1.22, 1.22], {
+      strokeColor: COLORS.accent,
+      strokeWidth: 2.2,
+      highlight: false
+    });
+
+    board.create('point', [0, 0], {
+      name: '',
+      size: 2,
+      fillColor: COLORS.accent,
+      strokeColor: COLORS.accent,
+      fixed: true,
+      highlight: false,
+      showInfobox: false
+    });
+
+    label(board, -3.75, 2.95, 'Δ = 0', { color: COLORS.accent, fontSize: 12 });
+    label(board, 0.15, 0.35, 'cusp', { color: COLORS.accent, fontSize: 11 });
+    label(board, -2.7, 0.85, 'three real roots', { fontSize: 12 });
+    label(board, -1.2, 2.5, 'one real root', { fontSize: 12 });
+    label(board, -1.2, -2.65, 'one real root', { fontSize: 12 });
+
+    const a0 = -2;
+    const b0 = 0;
+    // No in-board name label: the values below the figure already identify
+    // (a, b) live, and a static label here would crowd the region text at
+    // narrow widths.
+    const point = board.create('point', [a0, b0], {
+      name: '',
+      size: 3,
+      strokeColor: COLORS.accent,
+      fillColor: COLORS.accent,
+      withLabel: false
+    });
+
+    const aOut = document.getElementById(`${id}-a`);
+    const bOut = document.getElementById(`${id}-b`);
+    const deltaOut = document.getElementById(`${id}-delta`);
+    const classOut = document.getElementById(`${id}-class`);
+
+    const fmt = (n: number) => (Math.round(n * 100) / 100).toString().replace('-', '−');
+
+    function updateReadout() {
+      const a = point.X();
+      const b = point.Y();
+      const delta = -4 * a ** 3 - 27 * b ** 2;
+      if (aOut) aOut.textContent = fmt(a);
+      if (bOut) bOut.textContent = fmt(b);
+      if (deltaOut) deltaOut.textContent = fmt(delta);
+      if (classOut) classOut.textContent = classifyDiscriminant(delta);
+    }
+
+    point.on('drag', updateReadout);
+    updateReadout();
+
+    // JSXGraph point dragging has no built-in keyboard equivalent, so arrow
+    // keys nudge (a, b) once the board container is focused.
+    const step = 0.1;
+    container.addEventListener('keydown', (event: KeyboardEvent) => {
+      let a = point.X();
+      let b = point.Y();
+      if (event.key === 'ArrowLeft') a -= step;
+      else if (event.key === 'ArrowRight') a += step;
+      else if (event.key === 'ArrowUp') b += step;
+      else if (event.key === 'ArrowDown') b -= step;
+      else return;
+      event.preventDefault();
+      point.moveTo([a, b]);
+      board.update();
+      updateReadout();
+    });
+  }
+</script>

@@ -1,0 +1,45 @@
+---
+import JSXGraphPlot from './JSXGraphPlot.astro';
+
+const id = 'jxg-one-root';
+---
+
+<JSXGraphPlot
+  id={id}
+  title="Graph of x cubed plus x plus 1"
+  description="Graph of f(x) = x^3 + x + 1, a strictly increasing function that crosses the x-axis exactly once, near x = -0.68."
+  caption="Δ(1, 1) = -31 < 0: exactly one real root."
+  aspectRatio="6 / 5"
+/>
+
+<script>
+  import { createBoard, addAxisLine, label, rootPoint, newtonRoot, COLORS } from '../../lib/jsxgraph-utils';
+
+  const id = 'jxg-one-root';
+  const container = document.getElementById(id);
+
+  if (container) {
+    const board = createBoard(id, { boundingbox: [-1.7, 7, 1.7, -5] });
+
+    addAxisLine(board, [1, 0]);
+    addAxisLine(board, [0, 1]);
+    label(board, 1.4, -0.55, 'x', { fontSize: 13 });
+    label(board, 0.15, 6.5, 'y', { fontSize: 13 });
+
+    const f = (x: number) => x ** 3 + x + 1;
+    const fPrime = (x: number) => 3 * x ** 2 + 1;
+
+    board.create('functiongraph', [f, -1.7, 1.7], {
+      strokeColor: COLORS.accent,
+      strokeWidth: 2
+    });
+
+    // f is strictly increasing (f' = 3x^2 + 1 > 0 everywhere), so Newton's
+    // method converges globally to the single real root from any start.
+    const root = newtonRoot(f, fPrime, -1);
+    rootPoint(board, root);
+    label(board, 0.05, -1.0, `x ≈ ${root.toFixed(3).replace('-', '−')}`);
+
+    label(board, -1.3, 6.0, 'Δ < 0', { color: COLORS.accent, fontSize: 13 });
+  }
+</script>

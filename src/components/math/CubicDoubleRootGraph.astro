@@ -1,0 +1,49 @@
+---
+import JSXGraphPlot from './JSXGraphPlot.astro';
+
+const id = 'jxg-double-root';
+---
+
+<JSXGraphPlot
+  id={id}
+  title="Graph of x cubed minus 3x plus 2"
+  description="Graph of f(x) = x^3 - 3x + 2, factored as (x - 1) squared times (x + 2). It is tangent to the x-axis at the double root x = 1, and crosses it once more at the simple root x = -2."
+  caption="Δ(-3, 2) = 0: a double root at x = 1, a simple root at x = -2."
+  aspectRatio="6 / 5"
+/>
+
+<script>
+  import { createBoard, addAxisLine, label, rootPoint, COLORS } from '../../lib/jsxgraph-utils';
+
+  const id = 'jxg-double-root';
+  const container = document.getElementById(id);
+
+  if (container) {
+    const board = createBoard(id, { boundingbox: [-3, 5, 2.5, -1] });
+
+    addAxisLine(board, [1, 0]);
+    addAxisLine(board, [0, 1]);
+    label(board, 2.2, -0.5, 'x', { fontSize: 13 });
+    label(board, 0.15, 4.6, 'y', { fontSize: 13 });
+
+    board.create('functiongraph', [(x: number) => x ** 3 - 3 * x + 2, -3, 2.5], {
+      strokeColor: COLORS.accent,
+      strokeWidth: 2
+    });
+
+    rootPoint(board, -2);
+    label(board, -2.3, 0.35, '−2', { anchorX: 'right' });
+
+    rootPoint(board, 1, { hollow: true, size: 4 });
+    board.create('segment', [[1, 0.3], [1, 1.75]], {
+      strokeColor: COLORS.ink,
+      strokeOpacity: 0.4,
+      strokeWidth: 1,
+      highlight: false,
+      fixed: true
+    });
+    label(board, 1.1, 2.0, 'double root', { fontSize: 12 });
+
+    label(board, -2.6, 4.35, 'Δ = 0', { color: COLORS.accent, fontSize: 13 });
+  }
+</script>

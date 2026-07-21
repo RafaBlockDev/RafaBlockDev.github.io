@@ -1,0 +1,44 @@
+---
+import JSXGraphPlot from './JSXGraphPlot.astro';
+
+const id = 'jxg-three-roots';
+---
+
+<JSXGraphPlot
+  id={id}
+  title="Graph of x cubed minus 3x"
+  description="Graph of f(x) = x^3 - 3x, crossing the x-axis at three distinct points: minus the square root of 3, zero, and the square root of 3."
+  caption="Δ(-3, 0) = 108 > 0: three distinct real roots."
+  aspectRatio="6 / 5"
+/>
+
+<script>
+  import { createBoard, addAxisLine, label, rootPoint, COLORS } from '../../lib/jsxgraph-utils';
+
+  const id = 'jxg-three-roots';
+  const container = document.getElementById(id);
+
+  if (container) {
+    const board = createBoard(id, { boundingbox: [-2.6, 3, 2.6, -3] });
+
+    addAxisLine(board, [1, 0]);
+    addAxisLine(board, [0, 1]);
+    label(board, 2.35, -0.35, 'x', { fontSize: 13 });
+    label(board, -0.4, 2.8, 'y', { fontSize: 13 });
+
+    board.create('functiongraph', [(x: number) => x ** 3 - 3 * x, -2.6, 2.6], {
+      strokeColor: COLORS.accent,
+      strokeWidth: 2
+    });
+
+    const r = Math.sqrt(3);
+    rootPoint(board, -r);
+    rootPoint(board, 0);
+    rootPoint(board, r);
+    label(board, -r, -0.55, '−√3', { anchorX: 'middle' });
+    label(board, 0, -0.55, '0', { anchorX: 'middle' });
+    label(board, r, -0.55, '√3', { anchorX: 'middle' });
+
+    label(board, -2.3, 2.55, 'Δ > 0', { color: COLORS.accent, fontSize: 13 });
+  }
+</script>
