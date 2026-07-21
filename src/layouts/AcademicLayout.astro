@@ -50,7 +50,7 @@ function isCurrent(href: string): boolean {
       jsonLd={jsonLd}
     />
   </head>
-  <body class="min-h-screen bg-paper font-serif text-ink antialiased">
+  <body class="flex min-h-screen flex-col bg-paper font-serif text-ink antialiased">
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:px-3 focus:py-2 focus:font-mono focus:text-sm focus:text-accent focus:outline focus:outline-2 focus:outline-accent"
@@ -84,7 +84,7 @@ function isCurrent(href: string): boolean {
       </div>
     </header>
 
-    <main id="main" class="mx-auto max-w-[78rem] px-6 py-10">
+    <main id="main" class="mx-auto w-full max-w-[78rem] flex-1 px-6 py-10">
       <slot />
     </main>
 

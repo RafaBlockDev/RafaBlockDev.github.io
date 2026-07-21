@@ -2,7 +2,7 @@
 import AcademicLayout from '../../layouts/AcademicLayout.astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../../lib/paths';
-import { SITE, SOCIAL, dateFormatter } from '../../lib/site';
+import { SITE, dateFormatter } from '../../lib/site';
 import { breadcrumbJsonLd } from '../../lib/jsonld';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
@@ -12,16 +12,13 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 
 <AcademicLayout
   title={`Projects · ${SITE.name}`}
-  description="Engineering projects by Rafael Fuentes Rangel: AI/ML systems, agentic workflows, developer tools, and open-source work."
+  description="Engineering projects by Rafael Fuentes Rangel: AI/ML systems, agentic workflows, and developer tools."
   jsonLd={[breadcrumbJsonLd([{ label: 'Home', href: '/' }, { label: 'Projects' }])]}
 >
   <h1 class="font-serif text-2xl font-normal text-ink">Projects</h1>
   <p class="mt-2 max-w-2xl text-sm text-ink/70">
     Engineering work with usable implementations: AI/ML systems, agentic
-    workflows, developer tools, and open-source repositories. More is on{' '}
-    <a href={SOCIAL.github} class="text-accent underline underline-offset-2 hover:text-ink"
-      >GitHub</a
-    >.
+    workflows, and developer tools.
   </p>
 
   <ol class="mt-10 max-w-3xl space-y-10">
@@ -61,12 +58,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
     {
       projects.length === 0 && (
         <li class="max-w-2xl text-sm leading-relaxed text-ink/70">
-          Project write-ups are in progress. In the meantime, public code lives
-          on{' '}
-          <a href={SOCIAL.github} class="text-accent underline underline-offset-2">
-            GitHub
-          </a>
-          .
+          Project write-ups are in progress.
         </li>
       )
     }
