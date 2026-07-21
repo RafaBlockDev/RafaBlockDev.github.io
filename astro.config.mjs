@@ -9,6 +9,8 @@ import rehypeKatex from 'rehype-katex';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://rafablockdev.github.io',
+
   vite: {
     plugins: [tailwindcss()]
   },

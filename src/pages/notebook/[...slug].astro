@@ -1,6 +1,7 @@
 ---
 import AcademicLayout from '../../layouts/AcademicLayout.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { withBase } from '../../lib/paths';
 
 export async function getStaticPaths() {
   const entries = await getCollection('notebook');
@@ -26,7 +27,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 
 <AcademicLayout title={`${entry.data.title} — Notebook`} description={entry.data.summary}>
   <article class="mx-auto max-w-2xl">
-    <a href="/notebook" class="font-mono text-xs text-ink/50 hover:text-accent">&larr; notebook</a>
+    <a href={withBase('/notebook')} class="font-mono text-xs text-ink/50 hover:text-accent">&larr; notebook</a>
 
     <h1 class="mt-4 font-serif text-2xl font-normal text-ink">{entry.data.title}</h1>
     <p class="mt-2 font-mono text-xs text-ink/50">
