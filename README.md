@@ -1,43 +1,40 @@
-# Astro Starter Kit: Minimal
+# Research Notebook
 
-```sh
-bun create astro@latest -- --template minimal
-```
+Rafa Fuentes's academic AI research notebook — preprints and working notes, built with [Astro](https://astro.build).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Live at [rafablockdev.github.io](https://rafablockdev.github.io/).
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Project structure
 
 ```text
 /
-├── public/
+├── public/                  # favicon and other static assets
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/          # shared Astro components (e.g. Sidenote)
+│   ├── content/
+│   │   ├── papers/          # preprint entries (markdown)
+│   │   └── notebook/        # working-notes entries (MDX)
+│   ├── layouts/              # AcademicLayout.astro (shared page shell + nav)
+│   ├── lib/paths.ts          # withBase() helper for base-path-safe links
+│   └── pages/                # index, /papers, /notebook, /notebook/[slug]
+└── astro.config.mjs
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Run from the project root:
 
-Any static assets, like images, can be placed in the `public/` directory.
+| Command         | Action                                      |
+| :-------------- | :------------------------------------------- |
+| `bun install`    | Install dependencies                         |
+| `bun run dev`    | Start local dev server at `localhost:4321`   |
+| `bun run build`  | Build the production site to `./dist/`       |
+| `bun run preview`| Preview the production build locally         |
 
-## 🧞 Commands
+## Content
 
-All commands are run from the root of the project, from a terminal:
+Papers and notebook entries are Astro content collections defined in `src/content.config.ts`. Add a new entry by dropping a markdown/MDX file into `src/content/papers/` or `src/content/notebook/`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+## Deployment
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Pushing to `main` builds the site with Bun and deploys it to GitHub Pages via the workflow in `.github/workflows/deploy.yml`. No manual build step is needed.
