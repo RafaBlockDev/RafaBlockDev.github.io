@@ -1,5 +1,5 @@
 ---
-# TEMPLATE — copy this file, write a real article, and set draft: false.
+# TEMPLATE: copy this file, write a real article, and set draft: false.
 # Writing = completed articles for technical readers (explainers,
 # engineering articles, research commentary, retrospectives).
 # Exploratory or unfinished material belongs in the notebook instead.

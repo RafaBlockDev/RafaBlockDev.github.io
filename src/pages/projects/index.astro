@@ -11,7 +11,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 ---
 
 <AcademicLayout
-  title={`Projects — ${SITE.name}`}
+  title={`Projects · ${SITE.name}`}
   description="Engineering projects by Rafael Fuentes Rangel: AI/ML systems, agentic workflows, developer tools, and open-source work."
   jsonLd={[breadcrumbJsonLd([{ label: 'Home', href: '/' }, { label: 'Projects' }])]}
 >

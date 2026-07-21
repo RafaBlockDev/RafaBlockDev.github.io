@@ -23,7 +23,7 @@ export async function GET(context: APIContext) {
   ].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
 
   return rss({
-    title: `${SITE.name} — Writing & Notebook`,
+    title: `${SITE.name} · Writing & Notebook`,
     description: SITE.description,
     site: context.site ?? SITE.url,
     items,

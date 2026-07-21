@@ -11,7 +11,7 @@ const items = (await getCollection('research', ({ data }) => !data.draft)).sort(
 ---
 
 <AcademicLayout
-  title={`Research — ${SITE.name}`}
+  title={`Research · ${SITE.name}`}
   description="Papers, preprints, technical notes, and expository mathematical notes by Rafael Fuentes Rangel, with honest status labels."
   jsonLd={[breadcrumbJsonLd([{ label: 'Home', href: '/' }, { label: 'Research' }])]}
 >

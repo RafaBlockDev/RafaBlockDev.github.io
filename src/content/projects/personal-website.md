@@ -17,7 +17,7 @@ ogImage: "/og/project-personal-website.png"
 
 I wanted a single place that works as both a professional home page and a
 technical knowledge base: research notes with real mathematical notation,
-engineering write-ups, and a working notebook — without maintaining a CMS or
+engineering write-ups, and a working notebook, without maintaining a CMS or
 a server.
 
 ## Approach
@@ -25,15 +25,15 @@ a server.
 The site is fully static, built with Astro and deployed to GitHub Pages
 through a GitHub Actions workflow. Content lives in typed content
 collections (research, projects, writing, notebook), each with a schema
-that enforces honest metadata — publication status labels, dates, and
-draft flags — so nothing renders publicly unless it is explicitly marked
+that enforces honest metadata: publication status labels, dates, and
+draft flags. Nothing renders publicly unless it is explicitly marked
 ready.
 
 ## Architecture
 
 - **Astro content collections** with Zod schemas for four content types,
   each rendered through shared layout and metadata components.
-- **KaTeX via remark-math/rehype-katex** for server-rendered mathematics —
+- **KaTeX via remark-math/rehype-katex** for server-rendered mathematics;
   no client-side math JavaScript is shipped.
 - **Tailwind CSS** with a small custom theme (paper, ink, accent) that
   implements the LaTeX-inspired visual system.

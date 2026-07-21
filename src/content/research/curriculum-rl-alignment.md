@@ -1,5 +1,5 @@
 ---
-# TEMPLATE / UNPUBLISHED — this entry was demo content generated during a site
+# TEMPLATE / UNPUBLISHED: this entry was demo content generated during a site
 # rebuild. The workshop venue, results, and repository link it claimed were
 # not real. Kept (draft: true) only as a frontmatter reference. Replace every
 # field with real information before setting draft to false.

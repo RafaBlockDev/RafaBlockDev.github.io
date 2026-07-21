@@ -1,6 +1,6 @@
 # rafablockdev.github.io
 
-Personal website and knowledge hub of Rafael Fuentes Rangel — software
+Personal website and knowledge hub of Rafael Fuentes Rangel, a software
 engineer working in ML/AI. Built with [Astro](https://astro.build), with a
 LaTeX-inspired design system.
 
@@ -42,7 +42,7 @@ Run from the project root:
 
 All four sections (research, projects, writing, notebook) are Astro content
 collections defined in `src/content.config.ts`. Add a new entry by dropping a
-Markdown/MDX file into the matching `src/content/` folder — `_template.md`
+Markdown/MDX file into the matching `src/content/` folder; `_template.md`
 files show the expected frontmatter. Entries with `draft: true` never render.
 
 To give a page a custom social-preview card, run

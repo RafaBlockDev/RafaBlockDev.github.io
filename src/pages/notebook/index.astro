@@ -11,14 +11,14 @@ const entries = (await getCollection('notebook', ({ data }) => !data.draft)).sor
 ---
 
 <AcademicLayout
-  title={`Notebook — ${SITE.name}`}
-  description="Working notes, experiments, reading logs, and early ideas by Rafael Fuentes Rangel — exploratory by design."
+  title={`Notebook · ${SITE.name}`}
+  description="Working notes, experiments, reading logs, and early ideas by Rafael Fuentes Rangel, exploratory by design."
   jsonLd={[breadcrumbJsonLd([{ label: 'Home', href: '/' }, { label: 'Notebook' }])]}
 >
   <h1 class="font-serif text-2xl font-normal text-ink">Notebook</h1>
   <p class="mt-2 max-w-2xl text-sm text-ink/70">
     Working notes, reading logs, and in-progress thinking, newest first.
-    Entries here are exploratory by design — finished work graduates to{' '}
+    Entries here are exploratory by design; finished work graduates to{' '}
     <a href={withBase('/writing')} class="text-accent underline underline-offset-2 hover:text-ink">Writing</a>
     {' '}or{' '}
     <a href={withBase('/research')} class="text-accent underline underline-offset-2 hover:text-ink">Research</a>.

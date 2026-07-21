@@ -11,7 +11,7 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
 ---
 
 <AcademicLayout
-  title={`Writing — ${SITE.name}`}
+  title={`Writing · ${SITE.name}`}
   description="Articles for technical readers by Rafael Fuentes Rangel: explainers, engineering articles, mathematical notes, and project retrospectives."
   jsonLd={[breadcrumbJsonLd([{ label: 'Home', href: '/' }, { label: 'Writing' }])]}
 >

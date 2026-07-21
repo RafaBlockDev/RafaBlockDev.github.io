@@ -1,5 +1,5 @@
 ---
-# TEMPLATE / UNPUBLISHED — this entry was demo content generated during a site
+# TEMPLATE / UNPUBLISHED: this entry was demo content generated during a site
 # rebuild. The arXiv ID, co-author, results, and repository links it claimed
 # were not real. It is kept (draft: true) only as a reference for the research
 # frontmatter format. Replace every field with real information before

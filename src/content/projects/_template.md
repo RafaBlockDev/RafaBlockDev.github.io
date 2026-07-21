@@ -1,5 +1,5 @@
 ---
-# TEMPLATE — copy this file, fill in real information, and set draft: false.
+# TEMPLATE: copy this file, fill in real information, and set draft: false.
 # Case-study structure: problem, motivation, role, architecture,
 # implementation, decisions, evaluation, limitations, lessons learned.
 # Do not invent metrics; when none exist, describe evaluation honestly.

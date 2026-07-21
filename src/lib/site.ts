@@ -2,7 +2,7 @@ export const SITE = {
   url: 'https://rafablockdev.github.io',
   name: 'Rafael Fuentes Rangel',
   shortName: 'rafael fuentes',
-  title: 'Rafael Fuentes Rangel — Software Engineer · ML/AI',
+  title: 'Rafael Fuentes Rangel · Software Engineer, ML/AI',
   description:
     'Personal website of Rafael Fuentes Rangel, a software engineer working in ML/AI. Research notes, engineering projects, writing, and a working notebook.',
   author: 'Rafael Fuentes Rangel',
