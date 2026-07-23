@@ -26,7 +26,7 @@ const id = 'jxg-discriminant-cusp';
 </JSXGraphPlot>
 
 <script>
-  import { createBoard, addAxisLine, label, classifyDiscriminant, COLORS } from '../../lib/jsxgraph-utils';
+  import { createBoard, addAxes, label, classifyDiscriminant, COLORS } from '../../lib/jsxgraph-utils';
 
   const id = 'jxg-discriminant-cusp';
   const container = document.getElementById(id);
@@ -34,8 +34,7 @@ const id = 'jxg-discriminant-cusp';
   if (container) {
     const board = createBoard(id, { boundingbox: [-4.2, 3.2, 0.8, -3.2] });
 
-    addAxisLine(board, [1, 0]);
-    addAxisLine(board, [0, 1]);
+    addAxes(board);
     label(board, 0.55, -0.3, 'a', { color: COLORS.ink, fontSize: 13 });
     label(board, 0.12, 2.95, 'b', { color: COLORS.ink, fontSize: 13 });
 

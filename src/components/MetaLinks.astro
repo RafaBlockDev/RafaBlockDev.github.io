@@ -1,0 +1,32 @@
+---
+interface LinkItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  /** Links to render; the list renders nothing when empty. */
+  items: LinkItem[];
+  /** Accessible label for the group. */
+  label?: string;
+}
+
+const { items, label = 'Links' } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <ul
+      class="mt-4 flex flex-wrap items-center gap-4 font-mono text-xs"
+      aria-label={label}
+    >
+      {items.map((item) => (
+        <li>
+          <a href={item.href} class="text-accent underline underline-offset-2 hover:text-ink">
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

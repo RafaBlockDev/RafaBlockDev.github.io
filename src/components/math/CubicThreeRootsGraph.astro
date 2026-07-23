@@ -13,7 +13,7 @@ const id = 'jxg-three-roots';
 />
 
 <script>
-  import { createBoard, addAxisLine, label, rootPoint, COLORS } from '../../lib/jsxgraph-utils';
+  import { createBoard, addAxes, label, rootPoint, COLORS } from '../../lib/jsxgraph-utils';
 
   const id = 'jxg-three-roots';
   const container = document.getElementById(id);
@@ -21,8 +21,7 @@ const id = 'jxg-three-roots';
   if (container) {
     const board = createBoard(id, { boundingbox: [-2.6, 3, 2.6, -3] });
 
-    addAxisLine(board, [1, 0]);
-    addAxisLine(board, [0, 1]);
+    addAxes(board);
     label(board, 2.35, -0.35, 'x', { fontSize: 13 });
     label(board, -0.4, 2.8, 'y', { fontSize: 13 });
 

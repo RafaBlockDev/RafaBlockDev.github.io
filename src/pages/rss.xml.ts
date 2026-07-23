@@ -1,19 +1,17 @@
 import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
+import { getSortedCollection } from '../lib/content';
 import { SITE } from '../lib/site';
 
 export async function GET(context: APIContext) {
-  const notebook = await getCollection('notebook', ({ data }) => !data.draft);
+  const notebook = await getSortedCollection('notebook');
 
-  const items = notebook
-    .map((entry) => ({
-      title: entry.data.title,
-      description: entry.data.summary,
-      pubDate: entry.data.date,
-      link: `/notebook/${entry.id}/`
-    }))
-    .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
+  const items = notebook.map((entry) => ({
+    title: entry.data.title,
+    description: entry.data.summary,
+    pubDate: entry.data.date,
+    link: `/notebook/${entry.id}/`
+  }));
 
   return rss({
     title: `${SITE.name} · Notebook`,

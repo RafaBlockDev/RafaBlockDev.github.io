@@ -1,19 +1,13 @@
 ---
 import AcademicLayout from '../layouts/AcademicLayout.astro';
-import { getCollection } from 'astro:content';
+import { getSortedCollection } from '../lib/content';
 import { withBase } from '../lib/paths';
 import { SITE, SOCIAL, RESEARCH_STATUS_LABELS, dateFormatter } from '../lib/site';
 import { websiteJsonLd, profilePageJsonLd } from '../lib/jsonld';
 
-const research = (await getCollection('research', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
-const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
-const notebook = (await getCollection('notebook', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const research = await getSortedCollection('research');
+const projects = await getSortedCollection('projects');
+const notebook = await getSortedCollection('notebook');
 
 const selectedResearch = research.slice(0, 3);
 const selectedProjects = projects.slice(0, 3);
