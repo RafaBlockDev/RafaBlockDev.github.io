@@ -10,6 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "og": "bun scripts/generate-og.mjs",
     "astro": "astro"
   },
@@ -28,7 +31,9 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@types/katex": "^0.16.8",
+    "@vitest/coverage-v8": "4.1.10",
     "playwright-core": "^1.61.1",
-    "typescript": "6"
+    "typescript": "6",
+    "vitest": "4.1.10"
   }
 }
