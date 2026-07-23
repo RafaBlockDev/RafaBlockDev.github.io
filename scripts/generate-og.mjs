@@ -86,8 +86,14 @@ const browser = await chromium.launch({
   channel: undefined,
   executablePath: undefined
 });
-const page = await (await browser.newContext({ viewport: { width: 1200, height: 630 } })).newPage();
-await page.setContent(html, { waitUntil: 'load' });
-await page.screenshot({ path: join(outDir, out) });
-await browser.close();
+try {
+  const page = await (await browser.newContext({ viewport: { width: 1200, height: 630 } })).newPage();
+  await page.setContent(html, { waitUntil: 'load' });
+  await page.screenshot({ path: join(outDir, out) });
+} finally {
+  // Always release the Chromium process, even if rendering threw, so a
+  // failure doesn't leave a zombie browser behind. The error still
+  // propagates and fails the script with a non-zero exit code.
+  await browser.close();
+}
 console.log(`wrote public/og/${out}`);

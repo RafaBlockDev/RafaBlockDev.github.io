@@ -27,9 +27,16 @@ async function renderPng(size) {
   return buf;
 }
 
-const png32 = await renderPng(32);
-const png180 = await renderPng(180);
-await browser.close();
+let png32, png180;
+try {
+  png32 = await renderPng(32);
+  png180 = await renderPng(180);
+} finally {
+  // Always release the Chromium process, even if rendering threw, so a
+  // failure doesn't leave a zombie browser behind. The error still
+  // propagates and fails the script with a non-zero exit code.
+  await browser.close();
+}
 
 writeFileSync(join(root, 'public', 'favicon-32.png'), png32);
 writeFileSync(join(root, 'public', 'apple-touch-icon.png'), png180);

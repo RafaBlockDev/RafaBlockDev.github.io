@@ -13,12 +13,11 @@ const id = 'jxg-double-root';
 />
 
 <script>
-  import { createBoard, addAxisLine, label, rootPoint, COLORS } from '../../lib/jsxgraph-utils';
+  import { createBoard, addAxisLine, label, rootPoint, mountFigure, COLORS } from '../../lib/jsxgraph-utils';
 
   const id = 'jxg-double-root';
-  const container = document.getElementById(id);
 
-  if (container) {
+  mountFigure(id, () => {
     const board = createBoard(id, { boundingbox: [-3, 5, 2.5, -1] });
 
     addAxisLine(board, [1, 0]);
@@ -45,5 +44,5 @@ const id = 'jxg-double-root';
     label(board, 1.1, 2.0, 'double root', { fontSize: 12 });
 
     label(board, -2.6, 4.35, 'Δ = 0', { color: COLORS.accent, fontSize: 13 });
-  }
+  });
 </script>

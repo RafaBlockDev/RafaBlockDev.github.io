@@ -100,7 +100,36 @@ export function classifyDiscriminant(delta: number): string {
 export function newtonRoot(f: (x: number) => number, fPrime: (x: number) => number, x0: number): number {
   let x = x0;
   for (let i = 0; i < 50; i++) {
-    x = x - f(x) / fPrime(x);
+    const slope = fPrime(x);
+    // A vanishing derivative or a non-finite iterate means the iteration has
+    // diverged; returning the resulting NaN silently would render as
+    // "x ≈ NaN", so fail loudly instead.
+    if (!Number.isFinite(slope) || Math.abs(slope) < 1e-12) {
+      throw new Error(`newtonRoot: derivative too small to continue at x=${x}`);
+    }
+    x = x - f(x) / slope;
+    if (!Number.isFinite(x)) {
+      throw new Error(`newtonRoot: iteration diverged to a non-finite value from x0=${x0}`);
+    }
   }
   return x;
+}
+
+/**
+ * Looks up a figure's container and runs its board setup, reporting the two
+ * failure modes that would otherwise be swallowed: a missing container (e.g. a
+ * mistyped id, so nothing renders) and a runtime error thrown while building
+ * the board. Both are logged with the figure id for context.
+ */
+export function mountFigure(id: string, setup: (container: HTMLElement) => void): void {
+  const container = document.getElementById(id);
+  if (!container) {
+    console.error(`[jsxgraph] container #${id} not found; figure not rendered`);
+    return;
+  }
+  try {
+    setup(container);
+  } catch (error) {
+    console.error(`[jsxgraph] failed to render figure #${id}:`, error);
+  }
 }
