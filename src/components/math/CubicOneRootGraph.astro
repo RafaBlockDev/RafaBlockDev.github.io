@@ -13,7 +13,7 @@ const id = 'jxg-one-root';
 />
 
 <script>
-  import { createBoard, addAxisLine, label, rootPoint, newtonRoot, COLORS } from '../../lib/jsxgraph-utils';
+  import { createBoard, addAxes, label, rootPoint, newtonRoot, COLORS } from '../../lib/jsxgraph-utils';
 
   const id = 'jxg-one-root';
   const container = document.getElementById(id);
@@ -21,8 +21,7 @@ const id = 'jxg-one-root';
   if (container) {
     const board = createBoard(id, { boundingbox: [-1.7, 7, 1.7, -5] });
 
-    addAxisLine(board, [1, 0]);
-    addAxisLine(board, [0, 1]);
+    addAxes(board);
     label(board, 1.4, -0.55, 'x', { fontSize: 13 });
     label(board, 0.15, 6.5, 'y', { fontSize: 13 });
 

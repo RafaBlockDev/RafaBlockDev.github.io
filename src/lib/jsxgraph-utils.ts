@@ -56,6 +56,12 @@ export function addAxisLine(board: JSXBoard, direction: [number, number]): void 
   });
 }
 
+/** The x- and y-axis pair through the origin, shared by every figure. */
+export function addAxes(board: JSXBoard): void {
+  addAxisLine(board, [1, 0]);
+  addAxisLine(board, [0, 1]);
+}
+
 interface LabelOptions {
   color?: string;
   fontSize?: number;

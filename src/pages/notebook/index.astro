@@ -1,13 +1,12 @@
 ---
 import AcademicLayout from '../../layouts/AcademicLayout.astro';
-import { getCollection } from 'astro:content';
+import PillList from '../../components/PillList.astro';
+import { getSortedCollection } from '../../lib/content';
 import { withBase } from '../../lib/paths';
 import { SITE, dateFormatter } from '../../lib/site';
 import { breadcrumbJsonLd } from '../../lib/jsonld';
 
-const entries = (await getCollection('notebook', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const entries = await getSortedCollection('notebook');
 ---
 
 <AcademicLayout
@@ -36,15 +35,7 @@ const entries = (await getCollection('notebook', ({ data }) => !data.draft)).sor
             {entry.data.updatedDate && <> &middot; updated {dateFormatter.format(entry.data.updatedDate)}</>}
           </p>
           <p class="mt-2 text-sm leading-relaxed text-ink/80">{entry.data.summary}</p>
-          {entry.data.tags.length > 0 && (
-            <ul class="mt-2 flex flex-wrap gap-2" aria-label="Tags">
-              {entry.data.tags.map((tag) => (
-                <li class="rounded-sm bg-accent/5 px-2 py-0.5 font-mono text-[0.65rem] text-accent">
-                  {tag}
-                </li>
-              ))}
-            </ul>
-          )}
+          <PillList items={entry.data.tags} label="Tags" />
         </li>
       ))
     }
