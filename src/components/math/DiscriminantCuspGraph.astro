@@ -26,12 +26,11 @@ const id = 'jxg-discriminant-cusp';
 </JSXGraphPlot>
 
 <script>
-  import { createBoard, addAxisLine, label, classifyDiscriminant, COLORS } from '../../lib/jsxgraph-utils';
+  import { createBoard, addAxisLine, label, classifyDiscriminant, mountFigure, COLORS } from '../../lib/jsxgraph-utils';
 
   const id = 'jxg-discriminant-cusp';
-  const container = document.getElementById(id);
 
-  if (container) {
+  mountFigure(id, (container) => {
     const board = createBoard(id, { boundingbox: [-4.2, 3.2, 0.8, -3.2] });
 
     addAxisLine(board, [1, 0]);
@@ -112,5 +111,5 @@ const id = 'jxg-discriminant-cusp';
       board.update();
       updateReadout();
     });
-  }
+  });
 </script>

@@ -207,16 +207,19 @@ const jsonLd = [
   document.querySelectorAll<HTMLButtonElement>('.bibtex-copy').forEach((button) => {
     button.addEventListener('click', async () => {
       const bibtex = button.dataset.bibtex ?? '';
+      const original = button.textContent;
       try {
         await navigator.clipboard.writeText(bibtex);
-        const original = button.textContent;
         button.textContent = 'Copied';
-        setTimeout(() => {
-          button.textContent = original;
-        }, 1500);
-      } catch {
-        // Clipboard API unavailable; no-op.
+      } catch (error) {
+        // Clipboard API can be unavailable (insecure context) or blocked by
+        // permissions; surface it instead of leaving the user without feedback.
+        console.warn('Copying BibTeX to the clipboard failed:', error);
+        button.textContent = 'Copy failed';
       }
+      setTimeout(() => {
+        button.textContent = original;
+      }, 1500);
     });
   });
 </script>
